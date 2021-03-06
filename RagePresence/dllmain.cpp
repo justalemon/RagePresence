@@ -1,14 +1,14 @@
+#include <main.h>
 #include <windows.h>
-#include <natives.hpp>
-#include <discord_rpc.h>
+#include "Discord.h"
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved)
 {
     switch (reason)
     {
         case DLL_PROCESS_ATTACH:
-        case DLL_THREAD_ATTACH:
-        case DLL_THREAD_DETACH:
+            scriptRegister(hModule, InitializeDiscord);
+            break;
         case DLL_PROCESS_DETACH:
             break;
     }
