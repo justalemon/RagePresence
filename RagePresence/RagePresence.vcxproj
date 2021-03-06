@@ -38,14 +38,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\sdk\discord\discord-rpc\win64-dynamic\include;..\sdk\natives;..\sdk\scripthookv\inc;..\sdk\ikt;$(IncludePath)</IncludePath>
+    <IncludePath>..\sdk\fmt\include;..\sdk\discord\discord-rpc\win64-dynamic\include;..\sdk\natives;..\sdk\scripthookv\inc;..\sdk\ikt;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <TargetExt>.asi</TargetExt>
     <LibraryPath>..\sdk\discord\discord-rpc\win64-dynamic\lib;..\sdk\scripthookv\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\sdk\discord\discord-rpc\win64-dynamic\include;..\sdk\natives;..\sdk\scripthookv\inc;..\sdk\ikt;$(IncludePath)</IncludePath>
+    <IncludePath>..\sdk\fmt\include;..\sdk\discord\discord-rpc\win64-dynamic\include;..\sdk\natives;..\sdk\scripthookv\inc;..\sdk\ikt;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <TargetExt>.asi</TargetExt>
     <LibraryPath>..\sdk\discord\discord-rpc\win64-dynamic\lib;..\sdk\scripthookv\lib;$(LibraryPath)</LibraryPath>
@@ -97,6 +97,7 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\sdk\fmt\src\format.cc" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Discord.cpp" />
     <ClCompile Include="Tools.cpp" />
