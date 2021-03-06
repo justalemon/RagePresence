@@ -1,4 +1,5 @@
 #include <windows.h>
+#include <natives.hpp>
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved)
 {
@@ -12,4 +13,3 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved)
     }
     return TRUE;
 }
-
