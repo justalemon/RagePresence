@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <natives.hpp>
+#include <discord_rpc.h>
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved)
 {

@@ -38,10 +38,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\sdk\natives;..\sdk\scripthookv\inc;..\sdk\ikt;$(IncludePath)</IncludePath>
+    <IncludePath>..\sdk\discord\discord-rpc\win64-dynamic\include;..\sdk\natives;..\sdk\scripthookv\inc;..\sdk\ikt;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <TargetExt>.asi</TargetExt>
-    <LibraryPath>..\sdk\scripthookv\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\sdk\discord\discord-rpc\win64-dynamic\lib;..\sdk\scripthookv\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -72,7 +72,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>powershell -Command "Set-Location ..\; .\sdk\scripthookv.ps1"</Command>
+      <Command>powershell -Command "Set-Location ..\; .\sdk\download.ps1"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -91,7 +91,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>powershell -Command "Set-Location ..\; .\sdk\scripthookv.ps1"</Command>
+      <Command>powershell -Command "Set-Location ..\; .\sdk\download.ps1"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
