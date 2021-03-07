@@ -47,6 +47,4 @@ void DoCleanup()
 {
 	Discord_Shutdown();
 	ready = false;
-	delete user;
-	user = nullptr;
 }
