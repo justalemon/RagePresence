@@ -11,6 +11,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved)
             break;
         case DLL_PROCESS_DETACH:
             scriptUnregister(hModule);
+            DoCleanup();
             break;
     }
     return TRUE;
