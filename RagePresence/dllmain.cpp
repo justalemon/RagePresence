@@ -10,6 +10,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved)
             scriptRegister(hModule, InitializeDiscord);
             break;
         case DLL_PROCESS_DETACH:
+            scriptUnregister(hModule);
             break;
     }
     return TRUE;
