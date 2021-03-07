@@ -36,6 +36,7 @@ void InitializeDiscord()
 	handlers.errored = __DiscordErrored;
 	handlers.disconnected = __DiscordDisconnected;
 	Discord_Initialize("791461792382451752", &handlers, 1, "271590");
+	ready = true;  // sadly, the ready event handler never gets called
 }
 
 bool IsReady()
