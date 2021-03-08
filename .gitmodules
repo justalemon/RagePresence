@@ -4,3 +4,6 @@
 [submodule "sdk/discord"]
 	path = sdk/discord
 	url = https://github.com/justalemon/discord-rpc.git
+[submodule "sdk/rapidjson"]
+	path = sdk/rapidjson
+	url = https://github.com/Tencent/rapidjson.git

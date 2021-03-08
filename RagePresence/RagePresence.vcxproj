@@ -38,14 +38,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\sdk\discord\include;..\sdk\fmt\include;..\sdk\natives;..\sdk\scripthookv\inc;..\sdk\ikt;$(IncludePath)</IncludePath>
+    <IncludePath>..\sdk\rapidjson\include;..\sdk\discord\include;..\sdk\fmt\include;..\sdk\natives;..\sdk\scripthookv\inc;..\sdk\ikt;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <TargetExt>.asi</TargetExt>
     <LibraryPath>..\sdk\scripthookv\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\sdk\discord\include;..\sdk\fmt\include;..\sdk\natives;..\sdk\scripthookv\inc;..\sdk\ikt;$(IncludePath)</IncludePath>
+    <IncludePath>..\sdk\rapidjson\include;..\sdk\discord\include;..\sdk\fmt\include;..\sdk\natives;..\sdk\scripthookv\inc;..\sdk\ikt;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <TargetExt>.asi</TargetExt>
     <LibraryPath>..\sdk\scripthookv\lib;$(LibraryPath)</LibraryPath>
@@ -70,7 +70,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>..\sdk\discord\discord-rpc\win64-dynamic\lib\discord-rpc.lib;..\sdk\scripthookv\lib\ScriptHookV.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\sdk\scripthookv\lib\ScriptHookV.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>powershell -Command "Set-Location ..\; .\sdk\download.ps1"</Command>
@@ -90,7 +90,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>..\sdk\discord\discord-rpc\win64-dynamic\lib\discord-rpc.lib;..\sdk\scripthookv\lib\ScriptHookV.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\sdk\scripthookv\lib\ScriptHookV.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>powershell -Command "Set-Location ..\; .\sdk\download.ps1"</Command>
