@@ -14,11 +14,7 @@ const char* lastZone = "";
 const char* lastZoneName = "";
 
 Ped lastPed = NULL;
-Hash lastPedModel = NULL;
-
 Vehicle lastVehicle = NULL;
-Hash lastVehicleModel = NULL;
-const char* lastVehicleMake = "";
 
 bool changesDone = false;
 
@@ -28,7 +24,6 @@ void CheckForZone(const char* zone)
 	{
 		ShowDebugMessage(fmt::format("Zone was changed from {0} to {1}", lastZone, zone).c_str());
 		lastZone = zone;
-		lastZoneName = HUD::GET_LABEL_TEXT_(zone);
 		changesDone = true;
 	}
 }
@@ -41,9 +36,8 @@ void CheckForPed(Ped ped)
 	}
 
 	lastPed = ped;
-	lastPedModel = ENTITY::GET_ENTITY_MODEL(ped);
 	changesDone = true;
-	ShowDebugMessage(fmt::format("Ped was changed to {0} (Handle: {1})", lastPedModel, ped).c_str());
+	ShowDebugMessage(fmt::format("Ped was changed to {0} (Handle: {1})", ENTITY::GET_ENTITY_MODEL(ped), ped).c_str());
 }
 
 void CheckForVehicle(Vehicle vehicle)
@@ -54,25 +48,48 @@ void CheckForVehicle(Vehicle vehicle)
 	}
 
 	lastVehicle = vehicle;
-	lastVehicleModel = ENTITY::GET_ENTITY_MODEL(vehicle);
-	lastVehicleMake = HUD::GET_LABEL_TEXT_(VEHICLE::GET_MAKE_NAME_FROM_VEHICLE_MODEL_(lastVehicleModel));
 	changesDone = true;
-	ShowDebugMessage(fmt::format("Vehicle was changed to {0} (Handle: {1})", lastPedModel, vehicle).c_str());
+	ShowDebugMessage(fmt::format("Vehicle changed to:\nHandle: {0}", vehicle).c_str());
 }
 
-void UpdatePresenceInfo()
+void UpdatePresenceInfo(Ped ped, Vehicle vehicle, const char* zoneLabel)
 {
+	const char* zone = HUD::GET_LABEL_TEXT_(zoneLabel);
+
 	std::string details = "";
+	std::string smallImage = "";
+	std::string smallText = "";
+
 	if (lastVehicle == NULL)
 	{
-		details = fmt::format("Walking down {0}", lastZoneName);
+		details = fmt::format("Walking down {0}", zone);
 	}
 	else
 	{
-		details = fmt::format("Driving down {0}", lastZoneName);
+		Hash entity = ENTITY::GET_ENTITY_MODEL(vehicle);
+		const char* makeLabel = VEHICLE::GET_MAKE_NAME_FROM_VEHICLE_MODEL_(entity);
+		const char* modelLabel = VEHICLE::GET_DISPLAY_NAME_FROM_VEHICLE_MODEL(entity);
+
+		std::string make = makeLabel;
+		std::transform(make.begin(), make.end(), make.begin(), ::tolower);
+
+		details = fmt::format("Driving down {0}", zone);
+		smallText = HUD::GET_LABEL_TEXT_(modelLabel);
+		smallImage = fmt::format("man_{0}", make);
+
+		ShowDebugMessage(smallImage.c_str());
 	}
-	presence.details = details.c_str();
+
+	std::string zoneLower = zone;
+	std::transform(zoneLower.begin(), zoneLower.end(), zoneLower.begin(), ::tolower);
+	std::string largeImage = fmt::format("zone_{0}", zoneLower);
+
 	presence.state = "Free Mode";
+	presence.details = details.c_str();
+	presence.largeImageKey = largeImage.c_str();
+	presence.smallImageKey = smallImage.c_str();
+	presence.smallImageText = smallText.c_str();
+
 	Discord_UpdatePresence(&presence);
 }
 
@@ -88,8 +105,8 @@ void DoGameChecks()
 	}
 
 	// Now, set a random presence just to fill in some gaps
-	presence.details = "Waiting for the Game to load";
 	presence.state = "Loading...";
+	presence.details = "Waiting for the Game to load";
 	presence.partySize = 1;
 	presence.partyMax = 1;
 	presence.startTimestamp = time(0);
@@ -116,7 +133,7 @@ void DoGameChecks()
 
 		if (changesDone)
 		{
-			UpdatePresenceInfo();
+			UpdatePresenceInfo(ped, vehicle, zone);
 			ShowDebugMessage(fmt::format("Presence updated at {0}", MISC::GET_GAME_TIMER()).c_str());
 			changesDone = false;
 		}
