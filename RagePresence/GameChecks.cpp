@@ -78,7 +78,7 @@ void UpdatePresenceInfo(Ped ped, Vehicle vehicle, const char* zoneLabel)
 		smallImage = fmt::format("man_{0}", make);
 	}
 
-	std::string zoneLower = zone;
+	std::string zoneLower = zoneLabel;
 	std::transform(zoneLower.begin(), zoneLower.end(), zoneLower.begin(), ::tolower);
 	std::string largeImage = fmt::format("zone_{0}", zoneLower);
 
