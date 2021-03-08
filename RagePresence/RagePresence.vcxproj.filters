@@ -30,6 +30,21 @@
     <ClCompile Include="..\sdk\fmt\src\format.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\sdk\discord\src\connection_win.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sdk\discord\src\discord_register_win.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sdk\discord\src\discord_rpc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sdk\discord\src\rpc_connection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sdk\discord\src\serialization.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Discord.h">
@@ -40,6 +55,21 @@
     </ClInclude>
     <ClInclude Include="GameChecks.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sdk\discord\src\backoff.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sdk\discord\src\connection.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sdk\discord\src\msg_queue.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sdk\discord\src\rpc_connection.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sdk\discord\src\serialization.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

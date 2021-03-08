@@ -1,3 +1,6 @@
 [submodule "sdk/fmt"]
 	path = sdk/fmt
 	url = https://github.com/fmtlib/fmt.git
+[submodule "sdk/discord"]
+	path = sdk/discord
+	url = https://github.com/justalemon/discord-rpc.git
