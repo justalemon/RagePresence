@@ -56,20 +56,5 @@
     <ClInclude Include="GameChecks.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\sdk\discord\src\backoff.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sdk\discord\src\connection.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sdk\discord\src\msg_queue.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sdk\discord\src\rpc_connection.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sdk\discord\src\serialization.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

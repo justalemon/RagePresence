@@ -109,11 +109,6 @@
     <ClCompile Include="Tools.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\sdk\discord\src\backoff.h" />
-    <ClInclude Include="..\sdk\discord\src\connection.h" />
-    <ClInclude Include="..\sdk\discord\src\msg_queue.h" />
-    <ClInclude Include="..\sdk\discord\src\rpc_connection.h" />
-    <ClInclude Include="..\sdk\discord\src\serialization.h" />
     <ClInclude Include="Discord.h" />
     <ClInclude Include="GameChecks.h" />
     <ClInclude Include="Tools.h" />
