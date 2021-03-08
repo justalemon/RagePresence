@@ -76,8 +76,6 @@ void UpdatePresenceInfo(Ped ped, Vehicle vehicle, const char* zoneLabel)
 		details = fmt::format("Driving down {0}", zone);
 		smallText = HUD::GET_LABEL_TEXT_(modelLabel);
 		smallImage = fmt::format("man_{0}", make);
-
-		ShowDebugMessage(smallImage.c_str());
 	}
 
 	std::string zoneLower = zone;
