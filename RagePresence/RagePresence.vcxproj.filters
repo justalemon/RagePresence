@@ -45,6 +45,9 @@
     <ClCompile Include="..\sdk\discord\src\serialization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Config.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Discord.h">
@@ -56,5 +59,13 @@
     <ClInclude Include="GameChecks.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="RagePresence.json">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

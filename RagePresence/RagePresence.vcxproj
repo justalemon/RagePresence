@@ -103,15 +103,25 @@
     <ClCompile Include="..\sdk\discord\src\rpc_connection.cpp" />
     <ClCompile Include="..\sdk\discord\src\serialization.cpp" />
     <ClCompile Include="..\sdk\fmt\src\format.cc" />
+    <ClCompile Include="Config.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Discord.cpp" />
     <ClCompile Include="GameChecks.cpp" />
     <ClCompile Include="Tools.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Config.h" />
     <ClInclude Include="Discord.h" />
     <ClInclude Include="GameChecks.h" />
     <ClInclude Include="Tools.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="RagePresence.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="RagePresence.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

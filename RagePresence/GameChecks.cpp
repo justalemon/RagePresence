@@ -96,6 +96,9 @@ void DoGameChecks()
 	// Empty the presence information
 	memset(&presence, 0, sizeof(presence));
 
+	// Load the configuration (if possible)
+	LoadConfig();
+
 	// Wait until Discord RPC is initialized
 	while (!IsReady())
 	{
@@ -117,9 +120,19 @@ void DoGameChecks()
 		WAIT(0);
 	}
 
+	// Generate the cheat hash
+	Hash cheatHash = MISC::GET_HASH_KEY("rpreload");
+
 	// Now, go ahead and start doing the checks
 	while (true)
 	{
+		// If the user enters the "rpreload" cheat, load the configuration
+		if (MISC::HAS_CHEAT_STRING_JUST_BEEN_ENTERED_(cheatHash))
+		{
+			LoadConfig();
+			changesDone = true;
+		}
+
 		Ped ped = PLAYER::GET_PLAYER_PED(player);
 		Vehicle vehicle = PED::GET_VEHICLE_PED_IS_IN(ped, false);
 		Vector3 pos = ENTITY::GET_ENTITY_COORDS(ped, true);
