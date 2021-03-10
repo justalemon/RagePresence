@@ -120,7 +120,7 @@ void DoGameChecks()
 
 	// Wait until the playeable character can be controlled
 	Player player = PLAYER::PLAYER_ID();
-	while (DLC::GET_IS_LOADING_SCREEN_ACTIVE() || !PLAYER::IS_PLAYER_CONTROL_ON(player))
+	while (DLC::GET_IS_LOADING_SCREEN_ACTIVE())
 	{
 		WAIT(0);
 	}
