@@ -3,7 +3,6 @@
 #include <spdlog/spdlog.h>
 #include <windows.h>
 
-#include "Discord.h"
 #include "GameChecks.h"
 
 void Attach(HMODULE hModule)
@@ -16,14 +15,12 @@ void Attach(HMODULE hModule)
     spdlog::set_level(spdlog::level::info);
 #endif
     logger->info("Starting RagePresence...");
-    scriptRegister(hModule, InitializeDiscord);
     scriptRegister(hModule, DoGameChecks);
 }
 
 void Detach(HMODULE hModule)
 {
     scriptUnregister(hModule);
-    DoCleanup();
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved)

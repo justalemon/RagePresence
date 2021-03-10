@@ -7,7 +7,6 @@
 #include <time.h>
 
 #include "Config.h"
-#include "Discord.h"
 #include "Tools.h"
 
 DiscordRichPresence presence;
@@ -102,17 +101,14 @@ void UpdatePresenceInfo(Ped ped, Vehicle vehicle, const char* zoneLabel)
 
 void DoGameChecks()
 {
-	// Empty the presence information
+	// Initialize Discord
+	DiscordEventHandlers handlers;
+	memset(&handlers, 0, sizeof(handlers));
 	memset(&presence, 0, sizeof(presence));
+	Discord_Initialize(GetDiscordID(), &handlers, 1, "271590");
 
 	// Load the configuration (if possible)
 	LoadConfig();
-
-	// Wait until Discord RPC is initialized
-	while (!IsReady())
-	{
-		WAIT(0);
-	}
 
 	// Now, set a random presence just to fill in some gaps
 	presence.state = "Loading...";
