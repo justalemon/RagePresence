@@ -1,12 +1,15 @@
 #include <fmt/format.h>
 #include <fstream>
+#include <map>
 #include <rapidjson/document.h>
 #include <rapidjson/error/en.h>
 #include <rapidjson/istreamwrapper.h>
 #include <spdlog/spdlog.h>
+#include <types.h>
 #include <unordered_set>
 
 #include "Tools.h"
+#include <natives.hpp>
 
 using namespace rapidjson;
 
@@ -14,6 +17,7 @@ const char* default_client_id = "791461792382451752";
 
 const char* client_id = default_client_id;
 std::unordered_set<std::string> makes = {};
+std::map<Hash, std::string> missions = {};
 
 const char* GetDiscordID()
 {
@@ -25,6 +29,11 @@ bool IsMakeValid(std::string str)
 	bool valid = makes.count(str);
 	spdlog::get("file")->debug("Checking for {0}: {1}", str, valid);
 	return valid;
+}
+
+std::map<Hash, std::string> GetMissionList()
+{
+	return missions;
 }
 
 void LoadConfig()
@@ -107,6 +116,33 @@ void LoadConfig()
 					makes.insert(str);
 				}
 			}
+		}
+	}
+
+	// If there is a valid list of missions, load it
+	if (document.HasMember("missions"))
+	{
+		spdlog::get("file")->debug("Attempting to load list of Missions...");
+		Value& miss = document["missions"];
+
+		if (miss.IsObject())
+		{
+			missions.clear();
+
+			for (Value::ConstMemberIterator child = miss.MemberBegin(); child != miss.MemberEnd(); ++child)
+			{
+				if (child->value.IsString())
+				{
+					const char* mission = child->name.GetString();
+					std::pair<Hash, std::string> pair(MISC::GET_HASH_KEY(mission), child->value.GetString());
+					missions.insert(pair);
+					spdlog::get("file")->debug("Found Mission Script '{0}' ({1}) with Text Label '{2}'", mission, pair.first, pair.second);
+				}
+			}
+		}
+		else
+		{
+			spdlog::get("file")->warn("List of missions is not an Array!");
 		}
 	}
 }

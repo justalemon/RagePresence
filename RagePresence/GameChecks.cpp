@@ -17,6 +17,9 @@ const char* lastZoneName = "";
 Ped lastPed = NULL;
 Vehicle lastVehicle = NULL;
 
+Hash lastMission = 0;
+std::string lastMissionLabel = "";
+
 bool changesDone = false;
 
 void CheckForZone(const char* zone)
@@ -53,15 +56,49 @@ void CheckForVehicle(Vehicle vehicle)
 	spdlog::get("file")->debug("Vehicle changed to {0}", vehicle);
 }
 
+void CheckForMission()
+{
+	bool missionRunning = false;
+
+	for (auto const& [script, label] : GetMissionList())
+	{
+		if (SCRIPT::GET_NUMBER_OF_REFERENCES_OF_SCRIPT_WITH_NAME_HASH_(script) > 0)
+		{
+			missionRunning = true;
+
+			if (lastMission != script)
+			{
+				lastMission = script;
+				lastMissionLabel = label;
+				changesDone = true;
+				//spdlog::get("file")->debug("Mission was changed to {0} (Label: {1})", script, label);
+				return;
+			}
+		}
+	}
+
+	if (!missionRunning)
+	{
+		lastMission = 0;
+		lastMissionLabel = "";
+	}
+}
+
 void UpdatePresenceInfo(Ped ped, Vehicle vehicle, const char* zoneLabel)
 {
 	const char* zone = HUD::GET_LABEL_TEXT_(zoneLabel);
 
 	std::string details = "";
+	presence.state = "Freeroam";
 	std::string smallImage = "";
 	std::string smallText = "";
 
-	if (lastVehicle == NULL)
+	if (lastMission != 0 && lastMissionLabel != "")
+	{
+		details = fmt::format("Playing {0}", HUD::GET_LABEL_TEXT_(lastMissionLabel.c_str()));
+		presence.state = "On Mission";
+	}
+	else if (lastVehicle == NULL)
 	{
 		details = fmt::format("Walking down {0}", zone);
 	}
@@ -90,7 +127,6 @@ void UpdatePresenceInfo(Ped ped, Vehicle vehicle, const char* zoneLabel)
 	std::transform(zoneLower.begin(), zoneLower.end(), zoneLower.begin(), ::tolower);
 	std::string largeImage = fmt::format("zone_{0}", zoneLower);
 
-	presence.state = "Free Mode";
 	presence.details = details.c_str();
 	presence.largeImageKey = largeImage.c_str();
 	presence.smallImageKey = smallImage.c_str();
@@ -146,6 +182,7 @@ void DoGameChecks()
 		CheckForZone(zone);
 		CheckForPed(ped);
 		CheckForVehicle(vehicle);
+		CheckForMission();
 
 		if (changesDone)
 		{
