@@ -7,3 +7,6 @@
 [submodule "sdk/rapidjson"]
 	path = sdk/rapidjson
 	url = https://github.com/Tencent/rapidjson.git
+[submodule "sdk/spdlog"]
+	path = sdk/spdlog
+	url = https://github.com/gabime/spdlog.git

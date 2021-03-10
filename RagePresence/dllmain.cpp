@@ -1,19 +1,40 @@
 #include <main.h>
+#include <spdlog/sinks/basic_file_sink.h>
+#include <spdlog/spdlog.h>
 #include <windows.h>
+
 #include "Discord.h"
 #include "GameChecks.h"
+
+void Attach(HMODULE hModule)
+{
+    auto logger = spdlog::basic_logger_mt("file", "RagePresence.log");
+    spdlog::flush_every(std::chrono::seconds(1));
+#if DEBUG
+    spdlog::set_level(spdlog::level::debug);
+#else
+    spdlog::set_level(spdlog::level::info);
+#endif
+    logger->info("Starting RagePresence...");
+    scriptRegister(hModule, InitializeDiscord);
+    scriptRegister(hModule, DoGameChecks);
+}
+
+void Detach(HMODULE hModule)
+{
+    scriptUnregister(hModule);
+    DoCleanup();
+}
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved)
 {
     switch (reason)
     {
         case DLL_PROCESS_ATTACH:
-            scriptRegister(hModule, InitializeDiscord);
-            scriptRegister(hModule, DoGameChecks);
+            Attach(hModule);
             break;
         case DLL_PROCESS_DETACH:
-            scriptUnregister(hModule);
-            DoCleanup();
+            Detach(hModule);
             break;
     }
     return TRUE;

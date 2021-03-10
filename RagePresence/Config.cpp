@@ -4,6 +4,7 @@
 #include "rapidjson/error/en.h"
 #include <rapidjson/istreamwrapper.h>
 #include <set>
+#include <spdlog/spdlog.h>
 
 #include "Tools.h"
 
@@ -38,7 +39,8 @@ void LoadConfig()
 	// If the document is not an object
 	if (!document.IsObject())
 	{
-		ShowNotification("The root of the configuration file is not a JSON object.");
+		spdlog::get("file")->error("Configuration root object is not a JSON Object");
+		ShowNotification("The root of the configuration file is not a JSON Object.");
 		return;
 	}
 }

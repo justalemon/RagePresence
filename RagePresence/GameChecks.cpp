@@ -2,6 +2,7 @@
 #include <fmt/format.h>
 #include <main.h>
 #include <natives.hpp>
+#include <spdlog/spdlog.h>
 #include <string>
 #include <time.h>
 
@@ -22,7 +23,7 @@ void CheckForZone(const char* zone)
 {
 	if (lastZone != zone)
 	{
-		ShowDebugMessage(fmt::format("Zone was changed from {0} to {1}", lastZone, zone).c_str());
+		spdlog::get("file")->debug("Zone was changed from '{0}' to '{1}'", lastZone, zone);
 		lastZone = zone;
 		changesDone = true;
 	}
@@ -37,7 +38,7 @@ void CheckForPed(Ped ped)
 
 	lastPed = ped;
 	changesDone = true;
-	ShowDebugMessage(fmt::format("Ped was changed to {0} (Handle: {1})", ENTITY::GET_ENTITY_MODEL(ped), ped).c_str());
+	spdlog::get("file")->debug("Ped was changed to {0} (Handle: {1})", ENTITY::GET_ENTITY_MODEL(ped), ped);
 }
 
 void CheckForVehicle(Vehicle vehicle)
@@ -49,7 +50,7 @@ void CheckForVehicle(Vehicle vehicle)
 
 	lastVehicle = vehicle;
 	changesDone = true;
-	ShowDebugMessage(fmt::format("Vehicle changed to:\nHandle: {0}", vehicle).c_str());
+	spdlog::get("file")->debug("Vehicle changed to {0}", vehicle);
 }
 
 void UpdatePresenceInfo(Ped ped, Vehicle vehicle, const char* zoneLabel)
@@ -145,7 +146,7 @@ void DoGameChecks()
 		if (changesDone)
 		{
 			UpdatePresenceInfo(ped, vehicle, zone);
-			ShowDebugMessage(fmt::format("Presence updated at {0}", MISC::GET_GAME_TIMER()).c_str());
+			spdlog::get("file")->debug("Presence updated at {0}", MISC::GET_GAME_TIMER());
 			changesDone = false;
 		}
 
