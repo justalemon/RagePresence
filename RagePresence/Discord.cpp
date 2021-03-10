@@ -3,6 +3,8 @@
 #include <natives.hpp>
 #include <stdio.h>
 #include <string>
+
+#include "Config.h"
 #include "Tools.h"
 
 bool ready = false;
@@ -35,7 +37,7 @@ void InitializeDiscord()
 	handlers.ready = __DiscordReady;
 	handlers.errored = __DiscordErrored;
 	handlers.disconnected = __DiscordDisconnected;
-	Discord_Initialize("791461792382451752", &handlers, 1, "271590");
+	Discord_Initialize(GetDiscordID(), &handlers, 1, "271590");
 	ready = true;  // sadly, the ready event handler never gets called
 }
 

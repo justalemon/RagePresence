@@ -10,7 +10,15 @@
 
 using namespace rapidjson;
 
+const char* default_client_id = "791461792382451752";
+
+const char* client_id = default_client_id;
 std::unordered_set<std::string> makes = {};
+
+const char* GetDiscordID()
+{
+	return client_id;
+}
 
 bool IsMakeValid(std::string str)
 {
@@ -51,6 +59,30 @@ void LoadConfig()
 		spdlog::get("file")->error("Configuration root object is not a JSON Object");
 		ShowNotification("The root of the configuration file is not a JSON Object.");
 		return;
+	}
+
+	// If there is a Client ID, use it
+	if (document.HasMember("client_id"))
+	{
+		Value& id = document["client_id"];
+
+		if (id.IsString())
+		{
+			const char* newId = id.GetString();
+			spdlog::get("file")->info("Using Client ID from configuration ({0})", newId);
+			client_id = newId;
+		}
+		else
+		{
+			spdlog::get("file")->warn("Client ID in configuration is not a valid String!");
+			spdlog::get("file")->info("Using default Client ID from Lemon ({0})", default_client_id);
+			client_id = default_client_id;
+		}
+	}
+	else
+	{
+		spdlog::get("file")->info("Using default Client ID from Lemon ({0})", default_client_id);
+		client_id = default_client_id;
 	}
 
 	// If there is a list of makes and is an array, update the existing list
