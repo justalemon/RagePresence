@@ -6,6 +6,7 @@
 #include <string>
 #include <time.h>
 
+#include "Config.h"
 #include "Discord.h"
 #include "Tools.h"
 
@@ -68,15 +69,22 @@ void UpdatePresenceInfo(Ped ped, Vehicle vehicle, const char* zoneLabel)
 	else
 	{
 		Hash entity = ENTITY::GET_ENTITY_MODEL(vehicle);
-		const char* makeLabel = VEHICLE::GET_MAKE_NAME_FROM_VEHICLE_MODEL_(entity);
+		std::string makeLabel = VEHICLE::GET_MAKE_NAME_FROM_VEHICLE_MODEL_(entity);
+		std::transform(makeLabel.begin(), makeLabel.end(), makeLabel.begin(), ::tolower);
 		const char* modelLabel = VEHICLE::GET_DISPLAY_NAME_FROM_VEHICLE_MODEL(entity);
-
-		std::string make = makeLabel;
-		std::transform(make.begin(), make.end(), make.begin(), ::tolower);
 
 		details = fmt::format("Driving down {0}", zone);
 		smallText = HUD::GET_LABEL_TEXT_(modelLabel);
-		smallImage = fmt::format("man_{0}", make);
+
+		if (IsMakeValid(makeLabel))
+		{
+			smallImage = fmt::format("man_{0}", makeLabel);
+		}
+		else
+		{
+			spdlog::get("file")->debug("Make '{0}' is not valid", makeLabel);
+			smallImage = "";  // TODO: Generic Vehicle class based images
+		}
 	}
 
 	std::string zoneLower = zoneLabel;

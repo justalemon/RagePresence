@@ -1,2 +1,62 @@
 {
+    "makes": [
+        // Lore Frindly
+        "ALBANY",
+        "ANNIS",
+        "BENEFAC", // BENEFACTOR
+        "BF",
+        "BOLLOKAN",
+        "BRAVADO",
+        "BRUTE",
+        "BUCKING", // BUCKINGHAM
+        "CANIS",
+        "CHARIOT",
+        "CHEVAL",
+        "COIL",
+        "DECLASSE",
+        "DEWBAUCH", // DEWBAUCHEE
+        "DINKA",
+        "DUNDREAR", // DUNDREARY
+        "EMPEROR",
+        "ENUS",
+        "FATHOM",
+        "GROTTI",
+        "HIJAK",
+        "HVY",
+        "IMPONTE",
+        "INVETERO",
+        "JOBUILT",
+        "KARIN",
+        "KRAKEN",
+        "LAMPADA", // Lampadati
+        "LCC", // Liberty City Cycles
+        "MAXWELL",
+        "MTL",
+        "NAGASAKI",
+        "OBEY",
+        "OCELOT",
+        "OVERFLOD",
+        "PEGASSI",
+        "PFISTER",
+        "PRINCIPE",
+        "PROGEN",
+        "RUNE",
+        "SCHYSTER",
+        "SHITZU",
+        "SPEEDOPH", // Speedophile
+        "STANLEY",
+        "TRUFFADE",
+        "UBERMACH",
+        "VAPID",
+        "VULCAR",
+        "VYSSER",
+        "WEENY",
+        "WESTERN", // Western Motorcycle Company
+        "WILLARD",
+        "ZIRCONIU", // Zirconium
+        // Real
+        "BMW",
+        "MAZDA",
+        "NISSAN"
+    ]
 }

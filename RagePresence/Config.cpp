@@ -1,14 +1,23 @@
 #include <fmt/format.h>
 #include <fstream>
 #include <rapidjson/document.h>
-#include "rapidjson/error/en.h"
+#include <rapidjson/error/en.h>
 #include <rapidjson/istreamwrapper.h>
-#include <set>
 #include <spdlog/spdlog.h>
+#include <unordered_set>
 
 #include "Tools.h"
 
 using namespace rapidjson;
+
+std::unordered_set<std::string> makes = {};
+
+bool IsMakeValid(std::string str)
+{
+	bool valid = makes.count(str);
+	spdlog::get("file")->debug("Checking for {0}: {1}", str, valid);
+	return valid;
+}
 
 void LoadConfig()
 {
@@ -42,5 +51,30 @@ void LoadConfig()
 		spdlog::get("file")->error("Configuration root object is not a JSON Object");
 		ShowNotification("The root of the configuration file is not a JSON Object.");
 		return;
+	}
+
+	// If there is a list of makes and is an array, update the existing list
+	if (document.HasMember("makes"))
+	{
+		spdlog::get("file")->debug("Attempting to load list of Vehicle Makes...");
+		Value& man = document["makes"];
+
+		if (man.IsArray())
+		{
+			spdlog::get("file")->debug("Found valid aray, loading...");
+			makes.clear();
+
+			for (SizeType i = 0; i < man.Size(); i++)
+			{
+				Value& newMan = man[i];
+				if (newMan.IsString())
+				{
+					std::string str = newMan.GetString();
+					std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+					spdlog::get("file")->debug("Added manufacturer: {0}", str);
+					makes.insert(str);
+				}
+			}
+		}
 	}
 }

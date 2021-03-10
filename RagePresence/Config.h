@@ -1,4 +1,4 @@
 #pragma once
 
-bool IsManufacturerValid(const char*);
+bool IsMakeValid(std::string);
 void LoadConfig();
