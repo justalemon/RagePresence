@@ -7,7 +7,7 @@
 
 void Attach(HMODULE hModule)
 {
-    auto logger = spdlog::basic_logger_mt("file", "RagePresence.log");
+    auto logger = spdlog::basic_logger_mt("file", "RagePresence.log", true);
     spdlog::flush_every(std::chrono::seconds(1));
 #if DEBUG
     spdlog::set_level(spdlog::level::debug);
