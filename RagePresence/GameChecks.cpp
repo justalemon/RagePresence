@@ -160,6 +160,7 @@ void DoGameChecks()
 	presence.partySize = 1;
 	presence.partyMax = 1;
 	presence.startTimestamp = time(0);
+	presence.largeImageKey = "zone_oceana";
 	Discord_UpdatePresence(&presence);
 
 	// Wait until the playeable character can be controlled
