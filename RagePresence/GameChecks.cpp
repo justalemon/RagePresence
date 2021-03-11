@@ -87,6 +87,8 @@ void CheckForMission()
 void UpdatePresenceInfo(Ped ped, Vehicle vehicle, const char* zoneLabel)
 {
 	const char* zone = HUD::GET_LABEL_TEXT_(zoneLabel);
+	std::string zoneLower = zoneLabel;
+	std::transform(zoneLower.begin(), zoneLower.end(), zoneLower.begin(), ::tolower);
 
 	std::string details = "";
 	presence.state = "Freeroam";
@@ -118,17 +120,23 @@ void UpdatePresenceInfo(Ped ped, Vehicle vehicle, const char* zoneLabel)
 		}
 		else
 		{
-			spdlog::get("file")->debug("Make '{0}' is not valid", makeLabel);
+			spdlog::get("file")->warn("Make '{0}' is not valid", makeLabel);
 			smallImage = "";  // TODO: Generic Vehicle class based images
 		}
 	}
 
-	std::string zoneLower = zoneLabel;
-	std::transform(zoneLower.begin(), zoneLower.end(), zoneLower.begin(), ::tolower);
-	std::string largeImage = fmt::format("zone_{0}", zoneLower);
+	if (IsZoneValid(zoneLower))
+	{
+		std::string largeImage = fmt::format("zone_{0}", zoneLower);
+		presence.largeImageKey = largeImage.c_str();
+	}
+	else
+	{
+		spdlog::get("file")->warn("Zone '{0}' is not valid", zoneLower);
+		presence.largeImageKey = "zone_oceana";
+	}
 
 	presence.details = details.c_str();
-	presence.largeImageKey = largeImage.c_str();
 	presence.smallImageKey = smallImage.c_str();
 	presence.smallImageText = smallText.c_str();
 

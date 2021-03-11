@@ -17,6 +17,7 @@ const char* default_client_id = "791461792382451752";
 
 const char* client_id = default_client_id;
 std::unordered_set<std::string> makes = {};
+std::unordered_set<std::string> zones = {};
 std::map<Hash, std::string> missions = {};
 
 const char* GetDiscordID()
@@ -27,7 +28,14 @@ const char* GetDiscordID()
 bool IsMakeValid(std::string str)
 {
 	bool valid = makes.count(str);
-	spdlog::get("file")->debug("Checking for {0}: {1}", str, valid);
+	spdlog::get("file")->debug("Checking for Make {0}: {1}", str, valid);
+	return valid;
+}
+
+bool IsZoneValid(std::string str)
+{
+	bool valid = zones.count(str);
+	spdlog::get("file")->debug("Checking for Zone {0}: {1}", str, valid);
 	return valid;
 }
 
@@ -92,6 +100,31 @@ void LoadConfig()
 	{
 		spdlog::get("file")->info("Using default Client ID from Lemon ({0})", default_client_id);
 		client_id = default_client_id;
+	}
+
+	// Add the zones if present
+	if (document.HasMember("zones"))
+	{
+		spdlog::get("file")->debug("Attempting to load list of Zones...");
+		Value& zon = document["zones"];
+
+		if (zon.IsArray())
+		{
+			spdlog::get("file")->debug("Found valid aray, loading...");
+			zones.clear();
+
+			for (SizeType i = 0; i < zon.Size(); i++)
+			{
+				Value& newZone = zon[i];
+				if (newZone.IsString())
+				{
+					std::string str = newZone.GetString();
+					std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+					spdlog::get("file")->debug("Added zone: {0}", str);
+					zones.insert(str);
+				}
+			}
+		}
 	}
 
 	// If there is a list of makes and is an array, update the existing list

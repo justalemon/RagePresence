@@ -60,6 +60,23 @@
         "MAZDA",
         "NISSAN"
     ],
+    "zones": [
+        "airp",
+        "bradp",
+        "eburo",
+        "hors",
+        "jail",
+        "mtchil",
+        "mtgordo",
+        "oceana",
+        "paleto",
+        "palhigh",
+        "palmpow",
+        "procob",
+        "rtrak",
+        "termina",
+        "windf"
+    ],
     "missions": {
         "prologue1": "M_PRO1",
         "armenian1": "M_ARM1",
