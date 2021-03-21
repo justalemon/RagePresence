@@ -3,7 +3,7 @@
 #include <map>
 
 const char* GetDiscordID();
-bool IsMakeValid(std::string);
+std::string GetMakeImage(std::string str);
 bool IsZoneValid(std::string);
 std::map<Hash, std::string> GetMissionList();
 void LoadConfig();

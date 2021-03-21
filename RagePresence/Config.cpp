@@ -14,9 +14,10 @@
 using namespace rapidjson;
 
 const char* default_client_id = "791461792382451752";
+std::string default_make_image = "";
 
 const char* client_id = default_client_id;
-std::unordered_set<std::string> makes = {};
+std::map<std::string, std::string> makes = {};
 std::unordered_set<std::string> zones = {};
 std::map<Hash, std::string> missions = {};
 
@@ -25,11 +26,16 @@ const char* GetDiscordID()
 	return client_id;
 }
 
-bool IsMakeValid(std::string str)
+std::string GetMakeImage(std::string str)
 {
-	bool valid = makes.count(str);
-	spdlog::get("file")->debug("Checking for Make {0}: {1}", str, valid);
-	return valid;
+	if (makes.count(str) > 0)
+	{
+		std::string found = makes[str];
+		spdlog::get("file")->debug("Returning image {0} for make {1}", found, str);
+		return found;
+	}
+	spdlog::get("file")->debug("Image not found for {0}, returning default ({1})", str, default_make_image);
+	return default_make_image;
 }
 
 bool IsZoneValid(std::string str)
@@ -133,20 +139,20 @@ void LoadConfig()
 		spdlog::get("file")->debug("Attempting to load list of Vehicle Makes...");
 		Value& man = document["makes"];
 
-		if (man.IsArray())
+		if (man.IsObject())
 		{
-			spdlog::get("file")->debug("Found valid aray, loading...");
+			spdlog::get("file")->debug("Found valid object, loading...");
 			makes.clear();
 
-			for (SizeType i = 0; i < man.Size(); i++)
+			for (Value::ConstMemberIterator child = man.MemberBegin(); child != man.MemberEnd(); ++child)
 			{
-				Value& newMan = man[i];
-				if (newMan.IsString())
+				if (child->value.IsString())
 				{
-					std::string str = newMan.GetString();
-					std::transform(str.begin(), str.end(), str.begin(), ::tolower);
-					spdlog::get("file")->debug("Added manufacturer: {0}", str);
-					makes.insert(str);
+					std::string label = child->name.GetString();
+					std::transform(label.begin(), label.end(), label.begin(), ::tolower);
+					std::pair<std::string, std::string> pair(label, child->value.GetString());
+					makes.insert(pair);
+					spdlog::get("file")->debug("Found Make '{0}' with Image '{1}'", pair.first, pair.second);
 				}
 			}
 		}

@@ -113,16 +113,7 @@ void UpdatePresenceInfo(Ped ped, Vehicle vehicle, const char* zoneLabel)
 
 		details = fmt::format("Driving down {0}", zone);
 		smallText = HUD::GET_LABEL_TEXT_(modelLabel);
-
-		if (IsMakeValid(makeLabel))
-		{
-			smallImage = fmt::format("man_{0}", makeLabel);
-		}
-		else
-		{
-			spdlog::get("file")->warn("Make '{0}' is not valid", makeLabel);
-			smallImage = "";  // TODO: Generic Vehicle class based images
-		}
+		smallImage = fmt::format("man_{0}", GetMakeImage(makeLabel));
 	}
 
 	if (IsZoneValid(zoneLower))
