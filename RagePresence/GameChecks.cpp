@@ -116,9 +116,10 @@ void UpdatePresenceInfo(Ped ped, Vehicle vehicle, std::string zoneLabel)
 		smallImage = fmt::format("man_{0}", GetMakeImage(makeLabel));
 	}
 
+	std::string largeImage = "";
 	if (IsZoneValid(zoneLower))
 	{
-		std::string largeImage = fmt::format("zone_{0}", zoneLower);
+		largeImage = fmt::format("zone_{0}", zoneLower);
 		presence.largeImageKey = largeImage.c_str();
 	}
 	else
