@@ -113,7 +113,57 @@ void UpdatePresenceInfo(Ped ped, Vehicle vehicle, std::string zoneLabel)
 
 		details = fmt::format("Driving down {0}", zoneName);
 		smallText = HUD::GET_LABEL_TEXT_(modelLabel.c_str());
-		smallImage = fmt::format("man_{0}", GetMakeImage(makeLabel));
+
+		std::string img = GetMakeImage(makeLabel);
+		if (img.empty())
+		{
+			switch (VEHICLE::GET_VEHICLE_CLASS(vehicle))
+			{
+				case 2:  // SUV
+					smallImage = "veh_suv";
+					break;
+				case 5:  // Sports Classics
+					smallImage = "veh_sportsclassics";
+					break;
+				case 8:  // Motorcycle
+					smallImage = "veh_motorcycle";
+					break;
+				case 12:  // Van
+					smallImage = "veh_van";
+					break;
+				case 13:  // Cycles/Bikes
+					smallImage = "veh_bike";
+					break;
+				case 14:  // Boat
+					smallImage = "veh_boat";
+					break;
+				case 15:  // Helicopter
+					smallImage = "veh_helicopter";
+					break;
+				case 16:  // Plane
+					smallImage = "veh_plane";
+					break;
+				case 18:  // Emergency
+					smallImage = "veh_emergency";
+					break;
+				case 19:  // Military
+					smallImage = "veh_military";
+					break;
+				case 20:  // Commercial
+					smallImage = "veh_commercial";
+					break;
+				case 21:  // Trains
+					smallImage = "veh_train";
+					break;
+				default:
+					smallImage = "veh_car";
+					break;
+			}
+		}
+		else
+		{
+			smallImage = fmt::format("man_{0}", img);
+		}
 	}
 
 	std::string largeImage = "";
