@@ -11,8 +11,8 @@
 
 DiscordRichPresence presence;
 
-const char* lastZone = "";
-const char* lastZoneName = "";
+std::string lastZone = "";
+std::string lastZoneName = "";
 
 Ped lastPed = NULL;
 Vehicle lastVehicle = NULL;
@@ -22,7 +22,7 @@ std::string lastMissionLabel = "";
 
 bool changesDone = false;
 
-void CheckForZone(const char* zone)
+void CheckForZone(std::string zone)
 {
 	if (lastZone != zone)
 	{
@@ -84,9 +84,9 @@ void CheckForMission()
 	}
 }
 
-void UpdatePresenceInfo(Ped ped, Vehicle vehicle, const char* zoneLabel)
+void UpdatePresenceInfo(Ped ped, Vehicle vehicle, std::string zoneLabel)
 {
-	const char* zone = HUD::GET_LABEL_TEXT_(zoneLabel);
+	std::string zoneName = HUD::GET_LABEL_TEXT_(zoneLabel.c_str());
 	std::string zoneLower = zoneLabel;
 	std::transform(zoneLower.begin(), zoneLower.end(), zoneLower.begin(), ::tolower);
 
@@ -102,17 +102,17 @@ void UpdatePresenceInfo(Ped ped, Vehicle vehicle, const char* zoneLabel)
 	}
 	else if (lastVehicle == NULL)
 	{
-		details = fmt::format("Walking down {0}", zone);
+		details = fmt::format("Walking down {0}", zoneName);
 	}
 	else
 	{
 		Hash entity = ENTITY::GET_ENTITY_MODEL(vehicle);
 		std::string makeLabel = VEHICLE::GET_MAKE_NAME_FROM_VEHICLE_MODEL_(entity);
 		std::transform(makeLabel.begin(), makeLabel.end(), makeLabel.begin(), ::tolower);
-		const char* modelLabel = VEHICLE::GET_DISPLAY_NAME_FROM_VEHICLE_MODEL(entity);
+		std::string modelLabel = VEHICLE::GET_DISPLAY_NAME_FROM_VEHICLE_MODEL(entity);
 
-		details = fmt::format("Driving down {0}", zone);
-		smallText = HUD::GET_LABEL_TEXT_(modelLabel);
+		details = fmt::format("Driving down {0}", zoneName);
+		smallText = HUD::GET_LABEL_TEXT_(modelLabel.c_str());
 		smallImage = fmt::format("man_{0}", GetMakeImage(makeLabel));
 	}
 
@@ -189,7 +189,7 @@ void DoGameChecks()
 		Ped ped = PLAYER::GET_PLAYER_PED(player);
 		Vehicle vehicle = PED::GET_VEHICLE_PED_IS_IN(ped, false);
 		Vector3 pos = ENTITY::GET_ENTITY_COORDS(ped, true);
-		const char* zone = ZONE::GET_NAME_OF_ZONE(pos.x, pos.y, pos.z);
+		std::string zone = ZONE::GET_NAME_OF_ZONE(pos.x, pos.y, pos.z);
 
 		CheckForZone(zone);
 		CheckForPed(ped);
