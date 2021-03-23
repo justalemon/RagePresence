@@ -1,6 +1,6 @@
 # RagePresence<br>[![AppVeyor][appveyor-img]][appveyor-url] [![Patreon][patreon-img]][patreon-url] [![PayPal][paypal-img]][paypal-url] [![Discord][discord-img]][discord-url]
 
-RagePresence is a mod for Grand Theft Auto V that adds support for Discord Rich Presence. It shows your current mission (if playing on one), location (with a big picture), vehicle (with the make logo), ped (if on foot)
+RagePresence is a ScriptHookV mod that adds support for Discord Rich Presence into Grand Theft Auto V. It shows your current mission (if playing on one), location (with a big picture) and vehicle model with make logo (if any).
 
 ## Download
 
