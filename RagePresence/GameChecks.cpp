@@ -134,16 +134,14 @@ void UpdatePresenceInfo(Ped ped, Vehicle vehicle, const char* zoneLabel)
 	Discord_UpdatePresence(&presence);
 }
 
-void DoGameChecks()
+void Init()
 {
 	// Initialize Discord
+	spdlog::get("file")->debug("Initializing Discord Presence...");
 	DiscordEventHandlers handlers;
 	memset(&handlers, 0, sizeof(handlers));
 	memset(&presence, 0, sizeof(presence));
 	Discord_Initialize(GetDiscordID(), &handlers, 1, "271590");
-
-	// Load the configuration (if possible)
-	LoadConfig();
 
 	// Now, set a random presence just to fill in some gaps
 	presence.state = "Loading...";
@@ -153,6 +151,13 @@ void DoGameChecks()
 	presence.startTimestamp = time(0);
 	presence.largeImageKey = "zone_oceana";
 	Discord_UpdatePresence(&presence);
+}
+
+void DoGameChecks()
+{
+	// Load the configuration (if possible) and initialize Discord
+	Init();
+	LoadConfig();
 
 	// Wait until the playeable character can be controlled
 	Player player = PLAYER::PLAYER_ID();
@@ -162,15 +167,22 @@ void DoGameChecks()
 	}
 
 	// Generate the cheat hash
-	Hash cheatHash = MISC::GET_HASH_KEY("rpreload");
+	Hash cheatReload = MISC::GET_HASH_KEY("rpreload");
+	Hash cheatReconnect = MISC::GET_HASH_KEY("rpreconnect");
 
 	// Now, go ahead and start doing the checks
 	while (true)
 	{
-		// If the user enters the "rpreload" cheat, load the configuration
-		if (MISC::HAS_CHEAT_STRING_JUST_BEEN_ENTERED_(cheatHash))
+		// If the user enters the "rpreload" cheat, reload the configuration
+		if (MISC::HAS_CHEAT_STRING_JUST_BEEN_ENTERED_(cheatReload))
 		{
 			LoadConfig();
+			changesDone = true;
+		}
+		// And for "rpreconnect", reconnect to Discord by reinitializing
+		if (MISC::HAS_CHEAT_STRING_JUST_BEEN_ENTERED_(cheatReconnect))
+		{
+			Init();
 			changesDone = true;
 		}
 
