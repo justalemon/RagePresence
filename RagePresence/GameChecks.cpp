@@ -86,78 +86,91 @@ void CheckForMission()
 
 void UpdatePresenceInfo(Ped ped, Vehicle vehicle, std::string zoneLabel)
 {
+	// Get the Zone Name and Label as Lowercase
 	std::string zoneName = HUD::GET_LABEL_TEXT_(zoneLabel.c_str());
 	std::string zoneLower = zoneLabel;
 	std::transform(zoneLower.begin(), zoneLower.end(), zoneLower.begin(), ::tolower);
+	// And the vehicle information (if any)
+	Hash vehicleModel = ENTITY::GET_ENTITY_MODEL(vehicle);
+	std::string vehicleLabel = VEHICLE::GET_DISPLAY_NAME_FROM_VEHICLE_MODEL(vehicleModel);
+	std::string vehicleMakeLabel = VEHICLE::GET_MAKE_NAME_FROM_VEHICLE_MODEL_(ENTITY::GET_ENTITY_MODEL(vehicle));
+	std::transform(vehicleMakeLabel.begin(), vehicleMakeLabel.end(), vehicleMakeLabel.begin(), ::tolower);
+	std::string vehicleName = HUD::GET_LABEL_TEXT_(VEHICLE::GET_DISPLAY_NAME_FROM_VEHICLE_MODEL(vehicleModel));
 
+	// Create a place to store the information.
 	std::string details = "";
 	presence.state = "Freeroam";
 	std::string smallImage = "";
 	std::string smallText = "";
 
+	// If the player is on a mission, set the text to the mission name
 	if (lastMission != 0 && lastMissionLabel != "")
 	{
 		details = fmt::format("Playing {0}", HUD::GET_LABEL_TEXT_(lastMissionLabel.c_str()));
 		presence.state = "On Mission";
+		smallImage = "gen_onfoot";
 	}
+	// If the player is not a vehicle, say where he is walking
 	else if (lastVehicle == NULL)
 	{
 		details = fmt::format("Walking down {0}", zoneName);
+		smallImage = "gen_onfoot";
 	}
+	// Otherwise, say that he is driving and where
 	else
 	{
-		Hash entity = ENTITY::GET_ENTITY_MODEL(vehicle);
-		std::string makeLabel = VEHICLE::GET_MAKE_NAME_FROM_VEHICLE_MODEL_(entity);
-		std::transform(makeLabel.begin(), makeLabel.end(), makeLabel.begin(), ::tolower);
-		std::string modelLabel = VEHICLE::GET_DISPLAY_NAME_FROM_VEHICLE_MODEL(entity);
-
 		details = fmt::format("Driving down {0}", zoneName);
-		smallText = HUD::GET_LABEL_TEXT_(modelLabel.c_str());
+	}
 
-		std::string img = GetMakeImage(makeLabel);
+	// If the player is on a vehicle, set the vehicle specific image
+	if (lastVehicle != NULL)
+	{
+		smallText = fmt::format(vehicleName);
+
+		std::string img = GetMakeImage(vehicleMakeLabel);
 		if (img.empty())
 		{
 			switch (VEHICLE::GET_VEHICLE_CLASS(vehicle))
 			{
-				case 2:  // SUV
-					smallImage = "veh_suv";
-					break;
-				case 5:  // Sports Classics
-					smallImage = "veh_sportsclassics";
-					break;
-				case 8:  // Motorcycle
-					smallImage = "veh_motorcycle";
-					break;
-				case 12:  // Van
-					smallImage = "veh_van";
-					break;
-				case 13:  // Cycles/Bikes
-					smallImage = "veh_bike";
-					break;
-				case 14:  // Boat
-					smallImage = "veh_boat";
-					break;
-				case 15:  // Helicopter
-					smallImage = "veh_helicopter";
-					break;
-				case 16:  // Plane
-					smallImage = "veh_plane";
-					break;
-				case 18:  // Emergency
-					smallImage = "veh_emergency";
-					break;
-				case 19:  // Military
-					smallImage = "veh_military";
-					break;
-				case 20:  // Commercial
-					smallImage = "veh_commercial";
-					break;
-				case 21:  // Trains
-					smallImage = "veh_train";
-					break;
-				default:
-					smallImage = "veh_car";
-					break;
+			case 2:  // SUV
+				smallImage = "gen_suv";
+				break;
+			case 5:  // Sports Classics
+				smallImage = "gen_sportsclassics";
+				break;
+			case 8:  // Motorcycle
+				smallImage = "gen_motorcycle";
+				break;
+			case 12:  // Van
+				smallImage = "gen_van";
+				break;
+			case 13:  // Cycles/Bikes
+				smallImage = "gen_bike";
+				break;
+			case 14:  // Boat
+				smallImage = "gen_boat";
+				break;
+			case 15:  // Helicopter
+				smallImage = "gen_helicopter";
+				break;
+			case 16:  // Plane
+				smallImage = "gen_plane";
+				break;
+			case 18:  // Emergency
+				smallImage = "gen_emergency";
+				break;
+			case 19:  // Military
+				smallImage = "gen_military";
+				break;
+			case 20:  // Commercial
+				smallImage = "gen_commercial";
+				break;
+			case 21:  // Trains
+				smallImage = "gen_train";
+				break;
+			default:
+				smallImage = "gen_car";
+				break;
 			}
 		}
 		else
@@ -165,23 +178,31 @@ void UpdatePresenceInfo(Ped ped, Vehicle vehicle, std::string zoneLabel)
 			smallImage = fmt::format("man_{0}", img);
 		}
 	}
+	// Otherwise, set the on foot image
+	else
+	{
+		smallText = "On Foot";
+		smallImage = "gen_onfoot";
+	}
 
+	// If the zone image is valid, use it
 	std::string largeImage = "";
 	if (IsZoneValid(zoneLower))
 	{
 		largeImage = fmt::format("zone_{0}", zoneLower);
 		presence.largeImageKey = largeImage.c_str();
 	}
+	// Otherwise, set the ocean image again
 	else
 	{
 		spdlog::get("file")->warn("Zone '{0}' is not valid", zoneLower);
 		presence.largeImageKey = "zone_oceana";
 	}
 
+	// Set the presence information and update it
 	presence.details = details.c_str();
 	presence.smallImageKey = smallImage.c_str();
 	presence.smallImageText = smallText.c_str();
-
 	Discord_UpdatePresence(&presence);
 }
 
