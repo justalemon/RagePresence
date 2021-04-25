@@ -203,6 +203,7 @@ void UpdatePresenceInfo(Ped ped, Vehicle vehicle, std::string zoneLabel)
 	presence.details = details.c_str();
 	presence.smallImageKey = smallImage.c_str();
 	presence.smallImageText = smallText.c_str();
+	presence.largeImageText = zoneName.c_str();
 	Discord_UpdatePresence(&presence);
 }
 
