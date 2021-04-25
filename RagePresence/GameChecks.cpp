@@ -94,6 +94,7 @@ void UpdatePresenceInfo(Ped ped, Vehicle vehicle, std::string zoneLabel)
 	Hash vehicleModel = ENTITY::GET_ENTITY_MODEL(vehicle);
 	std::string vehicleLabel = VEHICLE::GET_DISPLAY_NAME_FROM_VEHICLE_MODEL(vehicleModel);
 	std::string vehicleMakeLabel = VEHICLE::GET_MAKE_NAME_FROM_VEHICLE_MODEL_(ENTITY::GET_ENTITY_MODEL(vehicle));
+	std::string vehicleMakeName = HUD::GET_LABEL_TEXT_(vehicleMakeLabel.c_str());
 	std::transform(vehicleMakeLabel.begin(), vehicleMakeLabel.end(), vehicleMakeLabel.begin(), ::tolower);
 	std::string vehicleName = HUD::GET_LABEL_TEXT_(VEHICLE::GET_DISPLAY_NAME_FROM_VEHICLE_MODEL(vehicleModel));
 
@@ -125,7 +126,7 @@ void UpdatePresenceInfo(Ped ped, Vehicle vehicle, std::string zoneLabel)
 	// If the player is on a vehicle, set the vehicle specific image
 	if (lastVehicle != NULL)
 	{
-		smallText = fmt::format(vehicleName);
+		smallText = fmt::format("{0} {1}", vehicleMakeName, vehicleName);
 
 		std::string img = GetMakeImage(vehicleMakeLabel);
 		if (img.empty())
