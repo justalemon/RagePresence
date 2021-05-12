@@ -11,6 +11,9 @@
 
 DiscordRichPresence presence;
 
+bool missionCustomUse = false;
+std::string missionCustomName = "";
+
 std::string lastZone = "";
 std::string lastZoneName = "";
 
@@ -58,6 +61,11 @@ void CheckForVehicle(Vehicle vehicle)
 
 void CheckForMission()
 {
+	if (missionCustomUse)
+	{
+		return;
+	}
+
 	bool missionRunning = false;
 
 	for (auto const& [script, label] : GetMissionList())
@@ -84,6 +92,31 @@ void CheckForMission()
 	}
 }
 
+void SetCustomMission(const char* name)
+{
+	missionCustomName = name;
+
+	missionCustomUse = true;
+	changesDone = true;
+
+	spdlog::get("file")->debug("Mission Name was manually set to {0}", name);
+}
+
+bool IsCustomMissionSet()
+{
+	return missionCustomUse;
+}
+
+void ClearCustomMission()
+{
+	missionCustomName = "";
+
+	missionCustomUse = false;
+	changesDone = true;
+
+	spdlog::get("file")->debug("Mission Name was manually cleared");
+}
+
 void UpdatePresenceInfo(Ped ped, Vehicle vehicle, std::string zoneLabel)
 {
 	// Get the Zone Name and Label as Lowercase
@@ -100,27 +133,31 @@ void UpdatePresenceInfo(Ped ped, Vehicle vehicle, std::string zoneLabel)
 
 	// Create a place to store the information.
 	std::string details = "";
-	presence.state = "Freeroam";
 	std::string smallImage = "";
 	std::string smallText = "";
 
 	// If the player is on a mission, set the text to the mission name
-	if (lastMission != 0 && lastMissionLabel != "")
+	if (missionCustomUse)
+	{
+		details = fmt::format("Playing {0}", missionCustomName);
+		presence.state = "On Mission";
+	}
+	else if (lastMission != 0 && lastMissionLabel != "")
 	{
 		details = fmt::format("Playing {0}", HUD::GET_LABEL_TEXT_(lastMissionLabel.c_str()));
 		presence.state = "On Mission";
-		smallImage = "gen_onfoot";
 	}
 	// If the player is not a vehicle, say where he is walking
 	else if (lastVehicle == NULL)
 	{
 		details = fmt::format("Walking down {0}", zoneName);
-		smallImage = "gen_onfoot";
+		presence.state = "Freeroaming";
 	}
 	// Otherwise, say that he is driving and where
 	else
 	{
 		details = fmt::format("Driving down {0}", zoneName);
+		presence.state = "Freeroaming";
 	}
 
 	// If the player is on a vehicle, set the vehicle specific image
