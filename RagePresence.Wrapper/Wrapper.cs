@@ -136,8 +136,8 @@ namespace RagePresence
 
             // If we got here, is safe to set the delegates for the pointers of the functions
             setCustomMission = Marshal.GetDelegateForFunctionPointer<SetString>(set);
-            isCustomMissionSet = Marshal.GetDelegateForFunctionPointer<GetBool>(set);
-            clearCustomMission = Marshal.GetDelegateForFunctionPointer<Void>(set);
+            isCustomMissionSet = Marshal.GetDelegateForFunctionPointer<GetBool>(check);
+            clearCustomMission = Marshal.GetDelegateForFunctionPointer<Void>(clear);
 
             // Then do the last steps
             Tick -= RagePresence_Tick;
