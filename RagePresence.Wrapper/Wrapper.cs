@@ -71,7 +71,7 @@ namespace RagePresence
         {
             get
             {
-                if (IsCustomMissionSet || getCustomMission == null)
+                if (!IsCustomMissionSet || getCustomMission == null)
                 {
                     return null;
                 }
