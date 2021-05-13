@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <AssemblyName>$(AssemblyName)</AssemblyName>
+    <DefineConstants>SHVDN3</DefineConstants>
+    <Version>1.0</Version>
+    <OutputPath>..\bin\$(Configuration)\scripts\</OutputPath>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>..\bin\$(Configuration)\scripts\$(AssemblyName).xml</DocumentationFile>
+    <PlatformTarget>x64</PlatformTarget>
+
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageId>RagePresence</PackageId>
+    <Authors>Hannele "Lemon" Ruiz</Authors>
+    <Company>Hannele "Lemon" Ruiz</Company>
+    <Product>RagePresence</Product>
+    <Description>.NET Wrapper for the Discord RPC mod for GTA V. Requires the RagePresence ASI mod to be installed.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/justalemon/RagePresence</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/justalemon/RagePresence.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <PackageOutputPath>..\bin\$(Configuration)</PackageOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ScriptHookVDotNet3" Version="3.0.2">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>
