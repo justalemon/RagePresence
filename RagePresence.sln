@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RagePresence", "RagePresence\RagePresence.vcxproj", "{E41EACA3-B8DF-4116-8A2F-74CAB29037C4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RagePresence.Wrapper", "RagePresence.Wrapper\RagePresence.Wrapper.csproj", "{4FA52DCE-CEBE-430A-BF01-99E0D01A6296}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RagePresence.SHVDN3", "RagePresence.SHVDN3\RagePresence.SHVDN3.csproj", "{4FA52DCE-CEBE-430A-BF01-99E0D01A6296}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

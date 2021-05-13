@@ -14,11 +14,11 @@
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageId>RagePresence</PackageId>
+    <PackageId>RagePresence.SHVDN3</PackageId>
     <Authors>Hannele "Lemon" Ruiz</Authors>
     <Company>Hannele "Lemon" Ruiz</Company>
-    <Product>RagePresence</Product>
-    <Description>.NET Wrapper for the Discord RPC mod for GTA V. Requires the RagePresence ASI mod to be installed.</Description>
+    <Product>RagePresence.SHVDN3</Product>
+    <Description>SHVDN3 Wrapper for the Discord RPC mod for GTA V. Requires the RagePresence ASI mod to be installed.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/justalemon/RagePresence</PackageProjectUrl>
     <RepositoryUrl>https://github.com/justalemon/RagePresence.git</RepositoryUrl>
