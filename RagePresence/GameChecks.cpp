@@ -103,6 +103,11 @@ void SetCustomMission(const char* name)
 	spdlog::get("file")->debug("Mission Name was manually set to {0}", name);
 }
 
+const char* GetCustomMission()
+{
+	return missionCustomName.c_str();
+}
+
 bool IsCustomMissionSet()
 {
 	return missionCustomUse;

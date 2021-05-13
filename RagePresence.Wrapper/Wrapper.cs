@@ -24,10 +24,15 @@ namespace RagePresence
         #region Delegates
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate string GetString();
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void SetString(string data);
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private delegate bool GetBool();
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void Void();
 
@@ -36,6 +41,7 @@ namespace RagePresence
         #region Fields
 
         private static SetString setCustomMission = null;
+        private static GetString getCustomMission = null;
         private static GetBool isCustomMissionSet = null;
         private static Void clearCustomMission = null;
 
@@ -51,25 +57,38 @@ namespace RagePresence
         /// Checks if the RagePresence wrapper is ready.
         /// </summary>
         public static bool IsReady { get; private set; } = false;
+
         /// <summary>
         /// Checks if there is a custom mission set.
         /// </summary>
         /// <returns><see langword="true"/> if there is a custom mission set, <see langword="false"/> otherwise.</returns>
         public static bool IsCustomMissionSet => (bool)(isCustomMissionSet?.Invoke());
-
-        #endregion
-
-        #region Functions
-
         /// <summary>
-        /// Sets a custom mission name.
+        /// The name of the current Custom Mission.
+        /// Set it to null to clear it.
         /// </summary>
-        /// <param name="mission">The mission name to set.</param>
-        public static void SetCustomMission(string mission) => setCustomMission?.Invoke(mission);
-        /// <summary>
-        /// Clears the custom mission name, if any.
-        /// </summary>
-        public static void ClearCustomMission() => clearCustomMission?.Invoke();
+        public static string CustomMission
+        {
+            get
+            {
+                if (IsCustomMissionSet || getCustomMission == null)
+                {
+                    return null;
+                }
+                return Marshal.PtrToStringAuto(getCustomMission.Invoke());
+            }
+            set
+            {
+                if (value == null)
+                {
+                    clearCustomMission?.Invoke();
+                }
+                else
+                {
+                    setCustomMission?.Invoke(value);
+                }
+            }
+        }
 
         #endregion
 
@@ -111,7 +130,8 @@ namespace RagePresence
 
             // Try to get the addresses of the functions
             IntPtr set = GetProcAddress(module, "SetCustomMission");
-            IntPtr get = GetProcAddress(module, "IsCustomMissionSet");
+            IntPtr get = GetProcAddress(module, "GetCustomMission");
+            IntPtr check = GetProcAddress(module, "IsCustomMissionSet");
             IntPtr clear = GetProcAddress(module, "ClearCustomMission");
 
             // If the functions are not present, return
@@ -121,7 +141,13 @@ namespace RagePresence
                 Tick -= RagePresence_Tick;
                 return;
             }
-            else if (get == IntPtr.Zero)
+            if (get == IntPtr.Zero)
+            {
+                Notification.Show("~r~Error~s~: Unable to find GetCustomMission in memory. Please make sure that you have an up to date version of RagePresence and restart your game.");
+                Tick -= RagePresence_Tick;
+                return;
+            }
+            else if (check == IntPtr.Zero)
             {
                 Notification.Show("~r~Error~s~: Unable to find IsCustomMissionSet in memory. Please make sure that you have an up to date version of RagePresence and restart your game.");
                 Tick -= RagePresence_Tick;
@@ -136,6 +162,7 @@ namespace RagePresence
 
             // If we got here, is safe to set the delegates for the pointers of the functions
             setCustomMission = Marshal.GetDelegateForFunctionPointer<SetString>(set);
+            getCustomMission = Marshal.GetDelegateForFunctionPointer<GetString>(get);
             isCustomMissionSet = Marshal.GetDelegateForFunctionPointer<GetBool>(check);
             clearCustomMission = Marshal.GetDelegateForFunctionPointer<Void>(clear);
 
