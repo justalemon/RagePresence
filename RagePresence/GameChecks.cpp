@@ -7,6 +7,7 @@
 #include <time.h>
 
 #include "Config.h"
+#include "GameChecks.h"
 #include "Tools.h"
 
 DiscordRichPresence presence;
