@@ -24,7 +24,7 @@ namespace RagePresence
         #region Delegates
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate string GetString();
+        private delegate IntPtr GetString();
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void SetString(string data);
@@ -75,7 +75,7 @@ namespace RagePresence
                 {
                     return null;
                 }
-                return Marshal.PtrToStringAuto(getCustomMission.Invoke());
+                return Marshal.PtrToStringAnsi(getCustomMission.Invoke());
             }
             set
             {
