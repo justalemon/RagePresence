@@ -8,12 +8,10 @@
 
 #include "Config.h"
 #include "GameChecks.h"
+#include "Globals.h"
 #include "Tools.h"
 
 DiscordRichPresence presence;
-
-bool missionCustomUse = false;
-std::string missionCustomName = "";
 
 std::string lastZone = "";
 std::string lastZoneName = "";
@@ -62,7 +60,7 @@ void CheckForVehicle(Vehicle vehicle)
 
 void CheckForMission()
 {
-	if (missionCustomUse)
+	if (missionCustomSet)
 	{
 		return;
 	}
@@ -93,36 +91,6 @@ void CheckForMission()
 	}
 }
 
-void SetCustomMission(const char* name)
-{
-	missionCustomName = name;
-
-	missionCustomUse = true;
-	changesDone = true;
-
-	spdlog::get("file")->debug("Mission Name was manually set to {0}", name);
-}
-
-const char* GetCustomMission()
-{
-	return missionCustomName.c_str();
-}
-
-bool IsCustomMissionSet()
-{
-	return missionCustomUse;
-}
-
-void ClearCustomMission()
-{
-	missionCustomName = "";
-
-	missionCustomUse = false;
-	changesDone = true;
-
-	spdlog::get("file")->debug("Mission Name was manually cleared");
-}
-
 void UpdatePresenceInfo(Ped ped, Vehicle vehicle, std::string zoneLabel)
 {
 	// Get the Zone Name and Label as Lowercase
@@ -143,7 +111,7 @@ void UpdatePresenceInfo(Ped ped, Vehicle vehicle, std::string zoneLabel)
 	std::string smallText = "";
 
 	// If the player is on a mission, set the text to the mission name
-	if (missionCustomUse)
+	if (missionCustomSet)
 	{
 		details = fmt::format("Playing {0}", missionCustomName);
 		presence.state = "On Mission";

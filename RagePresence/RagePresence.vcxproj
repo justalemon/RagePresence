@@ -108,11 +108,15 @@
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="GameChecks.cpp" />
+    <ClCompile Include="Globals.cpp" />
+    <ClCompile Include="RagePresence.cpp" />
     <ClCompile Include="Tools.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Config.h" />
     <ClInclude Include="GameChecks.h" />
+    <ClInclude Include="Globals.h" />
+    <ClInclude Include="RagePresence.h" />
     <ClInclude Include="Tools.h" />
   </ItemGroup>
   <ItemGroup>
