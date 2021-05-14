@@ -3,14 +3,14 @@
 #include "RagePresence.h"
 #include "Globals.h"
 
-void SetCustomMission(const char* name)
+void SetCustomMission(const char* mission)
 {
-	missionCustomName = name;
+	missionCustomName = mission;
 
 	missionCustomSet = true;
 	updateNextTick = true;
 
-	spdlog::get("file")->debug("Mission Name was manually set to {0}", name);
+	spdlog::get("file")->debug("Mission Name was manually set to {0}", mission);
 }
 
 const char* GetCustomMission()
@@ -31,4 +31,34 @@ void ClearCustomMission()
 	updateNextTick = true;
 
 	spdlog::get("file")->debug("Mission Name was manually cleared");
+}
+
+void SetCustomDetails(const char* details)
+{
+	detailsCustomText = details;
+
+	detailsCustomSet = false;
+	updateNextTick = true;
+
+	spdlog::get("file")->debug("RPC Details were manually set to {0}", details);
+}
+
+const char* GetCustomDetails()
+{
+	return detailsCustomText.c_str();
+}
+
+bool AreCustomDetailsSet()
+{
+	return detailsCustomSet;
+}
+
+void ClearCustomDetails()
+{
+	detailsCustomText = "";
+
+	detailsCustomSet = false;
+	updateNextTick = true;
+
+	spdlog::get("file")->debug("Custom RPC Details were manually cleared");
 }

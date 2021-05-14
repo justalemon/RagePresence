@@ -99,27 +99,42 @@ void UpdatePresenceInfo(Ped ped, Vehicle vehicle, std::string zoneLabel)
 	std::string smallImage = "";
 	std::string smallText = "";
 
-	// If the player is on a mission, set the text to the mission name
-	if (missionCustomSet)
+	// Then, set the details of what the player is doing curently
+	// Custom Details
+	if (detailsCustomSet)
+	{
+		details = detailsCustomText;
+	}
+	// Custom Mission
+	else if (missionCustomSet)
 	{
 		details = fmt::format("Playing {0}", missionCustomName);
-		presence.state = "On Mission";
 	}
+	// Game Mission
 	else if (lastMissionHash != 0 && lastMissionLabel != "")
 	{
 		details = fmt::format("Playing {0}", HUD::GET_LABEL_TEXT_(lastMissionLabel.c_str()));
-		presence.state = "On Mission";
 	}
-	// If the player is not a vehicle, say where he is walking
+	// Freeroaming: No Vehicle
 	else if (lastVehicle == NULL)
 	{
 		details = fmt::format("Walking down {0}", zoneName);
-		presence.state = "Freeroaming";
 	}
-	// Otherwise, say that he is driving and where
+	// Freeroaming: With Vehicle
 	else
 	{
 		details = fmt::format("Driving down {0}", zoneName);
+	}
+
+	// Ditto, but for the presence state
+	// On Mission, Custom or Game
+	if (missionCustomSet || lastMissionHash != 0)
+	{
+		presence.state = "On Mission";
+	}
+	// Freeroaming
+	else
+	{
 		presence.state = "Freeroaming";
 	}
 

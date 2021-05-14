@@ -15,3 +15,6 @@ std::string lastMissionLabel = "";
 
 std::string missionCustomName = "";
 bool missionCustomSet = false;
+
+std::string detailsCustomText = "";
+bool detailsCustomSet = false;

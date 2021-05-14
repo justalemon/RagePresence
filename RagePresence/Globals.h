@@ -15,3 +15,6 @@ extern std::string lastMissionLabel;
 
 extern std::string missionCustomName;
 extern bool missionCustomSet;
+
+extern std::string detailsCustomText;
+extern bool detailsCustomSet;
