@@ -179,6 +179,20 @@ namespace RagePresence
 
         #endregion
 
+        #region Functions
+
+        private void Error(string message)
+        {
+            Notification.Show($"~r~Error~s~: {message}");
+            Tick -= RagePresence_Tick;
+        }
+        private void PointerError(string name)
+        {
+            Error($"Unable to find {name} in memory. Please make sure that you have an up to date version of RagePresence and restart your game.");
+        }
+
+        #endregion
+
         #region Ticks
 
         private void RagePresence_Tick(object sender, EventArgs e)
@@ -195,8 +209,7 @@ namespace RagePresence
             // If is not there, return
             if (module == IntPtr.Zero)
             {
-                Notification.Show("~r~Error~s~: Unable to find RagePresence.asi in memory. Please make sure that it was loaded by checking ScriptHookV.log and then restart your game.");
-                Tick -= RagePresence_Tick;
+                Error("Unable to find RagePresence.asi in memory. Please make sure that it was loaded by checking ScriptHookV.log and then restart your game.");
                 return;
             }
 
@@ -219,76 +232,64 @@ namespace RagePresence
             // If the functions are not present, return
             if (missionSet == IntPtr.Zero)
             {
-                Notification.Show("~r~Error~s~: Unable to find SetCustomMission in memory. Please make sure that you have an up to date version of RagePresence and restart your game.");
-                Tick -= RagePresence_Tick;
+                PointerError("SetCustomMission");
                 return;
             }
             if (missionGet == IntPtr.Zero)
             {
-                Notification.Show("~r~Error~s~: Unable to find GetCustomMission in memory. Please make sure that you have an up to date version of RagePresence and restart your game.");
-                Tick -= RagePresence_Tick;
+                PointerError("GetCustomMission");
                 return;
             }
             else if (missionCheck == IntPtr.Zero)
             {
-                Notification.Show("~r~Error~s~: Unable to find IsCustomMissionSet in memory. Please make sure that you have an up to date version of RagePresence and restart your game.");
-                Tick -= RagePresence_Tick;
+                PointerError("IsCustomMissionSet");
                 return;
             }
             else if (missionClear == IntPtr.Zero)
             {
-                Notification.Show("~r~Error~s~: Unable to find ClearCustomMission in memory. Please make sure that you have an up to date version of RagePresence and restart your game.");
-                Tick -= RagePresence_Tick;
+                PointerError("ClearCustomMission");
                 return;
             }
 
             else if (detailsSet == IntPtr.Zero)
             {
-                Notification.Show("~r~Error~s~: Unable to find SetCustomDetails in memory. Please make sure that you have an up to date version of RagePresence and restart your game.");
-                Tick -= RagePresence_Tick;
+                PointerError("SetCustomDetails");
                 return;
             }
             else if (detailsGet == IntPtr.Zero)
             {
-                Notification.Show("~r~Error~s~: Unable to find GetCustomDetails in memory. Please make sure that you have an up to date version of RagePresence and restart your game.");
-                Tick -= RagePresence_Tick;
+                PointerError("GetCustomDetails");
                 return;
             }
             else if (detailsCheck == IntPtr.Zero)
             {
-                Notification.Show("~r~Error~s~: Unable to find AreCustomDetailsSet in memory. Please make sure that you have an up to date version of RagePresence and restart your game.");
-                Tick -= RagePresence_Tick;
+                PointerError("AreCustomDetailsSet");
                 return;
             }
             else if (detailsClear == IntPtr.Zero)
             {
-                Notification.Show("~r~Error~s~: Unable to find ClearCustomDetails in memory. Please make sure that you have an up to date version of RagePresence and restart your game.");
-                Tick -= RagePresence_Tick;
+                PointerError("ClearCustomDetails");
                 return;
             }
 
             else if (stateSet == IntPtr.Zero)
             {
-                Notification.Show("~r~Error~s~: Unable to find SetCustomState in memory. Please make sure that you have an up to date version of RagePresence and restart your game.");
-                Tick -= RagePresence_Tick;
+                PointerError("SetCustomState");
                 return;
             }
             else if (stateGet == IntPtr.Zero)
             {
-                Notification.Show("~r~Error~s~: Unable to find GetCustomState in memory. Please make sure that you have an up to date version of RagePresence and restart your game.");
-                Tick -= RagePresence_Tick;
+                PointerError("GetCustomState");
                 return;
             }
             else if (stateCheck == IntPtr.Zero)
             {
-                Notification.Show("~r~Error~s~: Unable to find IsCustomStateSet in memory. Please make sure that you have an up to date version of RagePresence and restart your game.");
-                Tick -= RagePresence_Tick;
+                PointerError("IsCustomStateSet");
                 return;
             }
             else if (stateClear == IntPtr.Zero)
             {
-                Notification.Show("~r~Error~s~: Unable to find ClearCustomState in memory. Please make sure that you have an up to date version of RagePresence and restart your game.");
-                Tick -= RagePresence_Tick;
+                PointerError("ClearCustomState");
                 return;
             }
 
