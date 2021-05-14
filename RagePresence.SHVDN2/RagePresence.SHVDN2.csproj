@@ -31,7 +31,7 @@
     <PackageReference Include="ScriptHookVDotNet2" Version="2.10.10">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <Compile Include="$(SolutionDir)/Wrapper.cs" />
+    <Compile Include="$(ProjectDir)/../Wrapper.cs" />
   </ItemGroup>
 
 </Project>
