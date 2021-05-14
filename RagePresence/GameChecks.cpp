@@ -22,15 +22,13 @@ Vehicle lastVehicle = NULL;
 Hash lastMission = 0;
 std::string lastMissionLabel = "";
 
-bool changesDone = false;
-
 void CheckForZone(std::string zone)
 {
 	if (lastZone != zone)
 	{
 		spdlog::get("file")->debug("Zone was changed from '{0}' to '{1}'", lastZone, zone);
 		lastZone = zone;
-		changesDone = true;
+		updateNextTick = true;
 	}
 }
 
@@ -42,7 +40,7 @@ void CheckForPed(Ped ped)
 	}
 
 	lastPed = ped;
-	changesDone = true;
+	updateNextTick = true;
 	spdlog::get("file")->debug("Ped was changed to {0} (Handle: {1})", ENTITY::GET_ENTITY_MODEL(ped), ped);
 }
 
@@ -54,7 +52,7 @@ void CheckForVehicle(Vehicle vehicle)
 	}
 
 	lastVehicle = vehicle;
-	changesDone = true;
+	updateNextTick = true;
 	spdlog::get("file")->debug("Vehicle changed to {0}", vehicle);
 }
 
@@ -77,7 +75,7 @@ void CheckForMission()
 			{
 				lastMission = script;
 				lastMissionLabel = label;
-				changesDone = true;
+				updateNextTick = true;
 				//spdlog::get("file")->debug("Mission was changed to {0} (Label: {1})", script, label);
 				return;
 			}
@@ -262,13 +260,13 @@ void DoGameChecks()
 		if (MISC::HAS_CHEAT_STRING_JUST_BEEN_ENTERED_(cheatReload))
 		{
 			LoadConfig();
-			changesDone = true;
+			updateNextTick = true;
 		}
 		// And for "rpreconnect", reconnect to Discord by reinitializing
 		if (MISC::HAS_CHEAT_STRING_JUST_BEEN_ENTERED_(cheatReconnect))
 		{
 			Init();
-			changesDone = true;
+			updateNextTick = true;
 		}
 
 		Ped ped = PLAYER::GET_PLAYER_PED(player);
@@ -281,11 +279,11 @@ void DoGameChecks()
 		CheckForVehicle(vehicle);
 		CheckForMission();
 
-		if (changesDone)
+		if (updateNextTick)
 		{
 			UpdatePresenceInfo(ped, vehicle, zone);
 			spdlog::get("file")->debug("Presence updated at {0}", MISC::GET_GAME_TIMER());
-			changesDone = false;
+			updateNextTick = false;
 		}
 
 		WAIT(0);
