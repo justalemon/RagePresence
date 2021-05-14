@@ -6,7 +6,7 @@
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <AssemblyName>$(AssemblyName)</AssemblyName>
     <DefineConstants>SHVDN2</DefineConstants>
-    <Version>1.0</Version>
+    <Version>0.2</Version>
     <OutputPath>..\bin\$(Configuration)\scripts\</OutputPath>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DocumentationFile>..\bin\$(Configuration)\scripts\$(AssemblyName).xml</DocumentationFile>
