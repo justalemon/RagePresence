@@ -50,6 +50,11 @@ namespace RagePresence
         private static GetBool areCustomDetailsSet = null;
         private static Void clearCustomDetails = null;
 
+        private static SetString setCustomState = null;
+        private static GetString getCustomState = null;
+        private static GetBool isCustomStateSet = null;
+        private static Void clearCustomState = null;
+
         #endregion
 
         #region Properties
@@ -69,10 +74,15 @@ namespace RagePresence
         /// <returns><see langword="true"/> if there is a custom mission set, <see langword="false"/> otherwise.</returns>
         public static bool IsCustomMissionSet => (bool)(isCustomMissionSet?.Invoke());
         /// <summary>
-        /// Checks if the custom details text has been changed manually.
+        /// Checks if the details text has been changed manually.
         /// </summary>
         /// <returns><see langword="true"/> if the text was changed, <see langword="false"/> otherwise.</returns>
         public static bool AreCustomDetailsSet => (bool)(areCustomDetailsSet?.Invoke());
+        /// <summary>
+        /// Checks if the state text has been changed manually.
+        /// </summary>
+        /// <returns><see langword="true"/> if the text was changed, <see langword="false"/> otherwise.</returns>
+        public static bool IsCustomStateSet => (bool)(isCustomStateSet?.Invoke());
         /// <summary>
         /// The name of the current Custom Mission.
         /// Set it to null to clear it.
@@ -100,7 +110,7 @@ namespace RagePresence
             }
         }
         /// <summary>
-        /// The name of the current Custom Mission.
+        /// The currently set Custom Details.
         /// Set it to null to clear it.
         /// </summary>
         public static string CustomDetails
@@ -122,6 +132,32 @@ namespace RagePresence
                 else
                 {
                     setCustomDetails?.Invoke(value);
+                }
+            }
+        }
+        /// <summary>
+        /// The current Custom State.
+        /// Set it to null to clear it.
+        /// </summary>
+        public static string CustomState
+        {
+            get
+            {
+                if (!IsCustomStateSet || getCustomState == null)
+                {
+                    return null;
+                }
+                return Marshal.PtrToStringAnsi(getCustomState.Invoke());
+            }
+            set
+            {
+                if (value == null)
+                {
+                    clearCustomState?.Invoke();
+                }
+                else
+                {
+                    setCustomState?.Invoke(value);
                 }
             }
         }
@@ -175,6 +211,11 @@ namespace RagePresence
             IntPtr detailsCheck = GetProcAddress(module, "AreCustomDetailsSet");
             IntPtr detailsClear = GetProcAddress(module, "ClearCustomDetails");
 
+            IntPtr stateSet = GetProcAddress(module, "SetCustomState");
+            IntPtr stateGet = GetProcAddress(module, "GetCustomState");
+            IntPtr stateCheck = GetProcAddress(module, "IsCustomStateSet");
+            IntPtr stateClear = GetProcAddress(module, "ClearCustomState");
+
             // If the functions are not present, return
             if (missionSet == IntPtr.Zero)
             {
@@ -226,6 +267,31 @@ namespace RagePresence
                 return;
             }
 
+            else if (stateSet == IntPtr.Zero)
+            {
+                Notification.Show("~r~Error~s~: Unable to find SetCustomState in memory. Please make sure that you have an up to date version of RagePresence and restart your game.");
+                Tick -= RagePresence_Tick;
+                return;
+            }
+            else if (stateGet == IntPtr.Zero)
+            {
+                Notification.Show("~r~Error~s~: Unable to find GetCustomState in memory. Please make sure that you have an up to date version of RagePresence and restart your game.");
+                Tick -= RagePresence_Tick;
+                return;
+            }
+            else if (stateCheck == IntPtr.Zero)
+            {
+                Notification.Show("~r~Error~s~: Unable to find IsCustomStateSet in memory. Please make sure that you have an up to date version of RagePresence and restart your game.");
+                Tick -= RagePresence_Tick;
+                return;
+            }
+            else if (stateClear == IntPtr.Zero)
+            {
+                Notification.Show("~r~Error~s~: Unable to find ClearCustomState in memory. Please make sure that you have an up to date version of RagePresence and restart your game.");
+                Tick -= RagePresence_Tick;
+                return;
+            }
+
             // If we got here, is safe to set the delegates for the pointers of the functions
             setCustomMission = Marshal.GetDelegateForFunctionPointer<SetString>(missionSet);
             getCustomMission = Marshal.GetDelegateForFunctionPointer<GetString>(missionGet);
@@ -236,6 +302,11 @@ namespace RagePresence
             getCustomDetails = Marshal.GetDelegateForFunctionPointer<GetString>(detailsGet);
             areCustomDetailsSet = Marshal.GetDelegateForFunctionPointer<GetBool>(detailsCheck);
             clearCustomDetails = Marshal.GetDelegateForFunctionPointer<Void>(detailsClear);
+
+            setCustomState = Marshal.GetDelegateForFunctionPointer<SetString>(stateSet);
+            getCustomState = Marshal.GetDelegateForFunctionPointer<GetString>(stateGet);
+            isCustomStateSet = Marshal.GetDelegateForFunctionPointer<GetBool>(stateCheck);
+            clearCustomState = Marshal.GetDelegateForFunctionPointer<Void>(stateClear);
 
             // Then do the last steps
             Tick -= RagePresence_Tick;

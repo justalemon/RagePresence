@@ -18,3 +18,6 @@ extern bool missionCustomSet;
 
 extern std::string detailsCustomText;
 extern bool detailsCustomSet;
+
+extern std::string stateCustomText;
+extern bool stateCustomSet;

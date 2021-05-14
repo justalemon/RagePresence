@@ -11,3 +11,8 @@ RP_API void SetCustomDetails(const char* details);
 RP_API const char* GetCustomDetails();
 RP_API bool AreCustomDetailsSet();
 RP_API void ClearCustomDetails();
+
+RP_API void SetCustomState(const char* state);
+RP_API const char* GetCustomState();
+RP_API bool IsCustomStateSet();
+RP_API void ClearCustomState();

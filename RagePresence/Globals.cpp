@@ -18,3 +18,6 @@ bool missionCustomSet = false;
 
 std::string detailsCustomText = "";
 bool detailsCustomSet = false;
+
+std::string stateCustomText = "";
+bool stateCustomSet = false;

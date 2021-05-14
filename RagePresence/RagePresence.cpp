@@ -37,7 +37,7 @@ void SetCustomDetails(const char* details)
 {
 	detailsCustomText = details;
 
-	detailsCustomSet = false;
+	detailsCustomSet = true;
 	updateNextTick = true;
 
 	spdlog::get("file")->debug("RPC Details were manually set to {0}", details);
@@ -61,4 +61,34 @@ void ClearCustomDetails()
 	updateNextTick = true;
 
 	spdlog::get("file")->debug("Custom RPC Details were manually cleared");
+}
+
+void SetCustomState(const char* state)
+{
+	stateCustomText = state;
+
+	stateCustomSet = true;
+	updateNextTick = true;
+
+	spdlog::get("file")->debug("RPC State was manually set to {0}", state);
+}
+
+const char* GetCustomState()
+{
+	return stateCustomText.c_str();
+}
+
+bool IsCustomStateSet()
+{
+	return stateCustomSet;
+}
+
+void ClearCustomState()
+{
+	stateCustomText = "";
+
+	stateCustomSet = false;
+	updateNextTick = true;
+
+	spdlog::get("file")->debug("Custom RPC State was manually cleared");
 }

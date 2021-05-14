@@ -96,6 +96,7 @@ void UpdatePresenceInfo(Ped ped, Vehicle vehicle, std::string zoneLabel)
 
 	// Create a place to store the information.
 	std::string details = "";
+	std::string state = "";
 	std::string smallImage = "";
 	std::string smallText = "";
 
@@ -127,15 +128,19 @@ void UpdatePresenceInfo(Ped ped, Vehicle vehicle, std::string zoneLabel)
 	}
 
 	// Ditto, but for the presence state
-	// On Mission, Custom or Game
-	if (missionCustomSet || lastMissionHash != 0)
+	if (stateCustomSet)
 	{
-		presence.state = "On Mission";
+		state = stateCustomText;
+	}
+	// On Mission, Custom or Game
+	else if (missionCustomSet || lastMissionHash != 0)
+	{
+		state = "On Mission";
 	}
 	// Freeroaming
 	else
 	{
-		presence.state = "Freeroaming";
+		state = "Freeroaming";
 	}
 
 	// If the player is on a vehicle, set the vehicle specific image
@@ -217,6 +222,7 @@ void UpdatePresenceInfo(Ped ped, Vehicle vehicle, std::string zoneLabel)
 
 	// Set the presence information and update it
 	presence.details = details.c_str();
+	presence.state = state.c_str();
 	presence.smallImageKey = smallImage.c_str();
 	presence.smallImageText = smallText.c_str();
 	presence.largeImageText = zoneName.c_str();
