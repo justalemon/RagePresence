@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RagePresence", "RagePresenc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RagePresence.SHVDN3", "RagePresence.SHVDN3\RagePresence.SHVDN3.csproj", "{4FA52DCE-CEBE-430A-BF01-99E0D01A6296}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RagePresence.SHVDN2", "RagePresence.SHVDN2\RagePresence.SHVDN2.csproj", "{19BD730C-7594-43D1-AA43-0FD6C179CE00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,10 @@ Global
 		{4FA52DCE-CEBE-430A-BF01-99E0D01A6296}.Debug|x64.Build.0 = Debug|Any CPU
 		{4FA52DCE-CEBE-430A-BF01-99E0D01A6296}.Release|x64.ActiveCfg = Release|Any CPU
 		{4FA52DCE-CEBE-430A-BF01-99E0D01A6296}.Release|x64.Build.0 = Release|Any CPU
+		{19BD730C-7594-43D1-AA43-0FD6C179CE00}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{19BD730C-7594-43D1-AA43-0FD6C179CE00}.Debug|x64.Build.0 = Debug|Any CPU
+		{19BD730C-7594-43D1-AA43-0FD6C179CE00}.Release|x64.ActiveCfg = Release|Any CPU
+		{19BD730C-7594-43D1-AA43-0FD6C179CE00}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

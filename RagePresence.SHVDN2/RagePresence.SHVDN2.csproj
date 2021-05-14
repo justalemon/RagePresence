@@ -5,7 +5,7 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <AssemblyName>$(AssemblyName)</AssemblyName>
-    <DefineConstants>SHVDN3</DefineConstants>
+    <DefineConstants>SHVDN2</DefineConstants>
     <Version>1.0</Version>
     <OutputPath>..\bin\$(Configuration)\scripts\</OutputPath>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -14,11 +14,11 @@
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageId>RagePresence.SHVDN3</PackageId>
+    <PackageId>RagePresence.SHVDN2</PackageId>
     <Authors>Hannele "Lemon" Ruiz</Authors>
     <Company>Hannele "Lemon" Ruiz</Company>
-    <Product>RagePresence.SHVDN3</Product>
-    <Description>ScriptHookVDotNet3 Wrapper for the Discord RPC mod for GTA V. Requires the RagePresence ASI mod to be installed.</Description>
+    <Product>RagePresence.SHVDN2</Product>
+    <Description>ScriptHookVDotNet2 Wrapper for the Discord RPC mod for GTA V. Requires the RagePresence ASI mod to be installed.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/justalemon/RagePresence</PackageProjectUrl>
     <RepositoryUrl>https://github.com/justalemon/RagePresence.git</RepositoryUrl>
@@ -28,7 +28,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ScriptHookVDotNet3" Version="3.0.2">
+    <PackageReference Include="ScriptHookVDotNet2" Version="2.10.10">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <Compile Include="$(SolutionDir)/Wrapper.cs" />

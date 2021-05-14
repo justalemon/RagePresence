@@ -1,6 +1,8 @@
-﻿using GTA;
-using GTA.Native;
+﻿#if SHVDN3
 using GTA.UI;
+#endif
+using GTA;
+using GTA.Native;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -183,7 +185,12 @@ namespace RagePresence
 
         private void Error(string message)
         {
-            Notification.Show($"~r~Error~s~: {message}");
+            string txt = $"~r~Error~s~: {message}";
+#if SHVDN2
+            UI.Notify(txt);
+#elif SHVDN3
+            Notification.Show(txt);
+#endif
             Tick -= RagePresence_Tick;
         }
         private void PointerError(string name)
