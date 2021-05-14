@@ -13,21 +13,12 @@
 
 DiscordRichPresence presence;
 
-std::string lastZone = "";
-std::string lastZoneName = "";
-
-Ped lastPed = NULL;
-Vehicle lastVehicle = NULL;
-
-Hash lastMission = 0;
-std::string lastMissionLabel = "";
-
 void CheckForZone(std::string zone)
 {
-	if (lastZone != zone)
+	if (lastZoneLabel != zone)
 	{
-		spdlog::get("file")->debug("Zone was changed from '{0}' to '{1}'", lastZone, zone);
-		lastZone = zone;
+		spdlog::get("file")->debug("Zone was changed from '{0}' to '{1}'", lastZoneLabel, zone);
+		lastZoneLabel = zone;
 		updateNextTick = true;
 	}
 }
@@ -71,9 +62,9 @@ void CheckForMission()
 		{
 			missionRunning = true;
 
-			if (lastMission != script)
+			if (lastMissionHash != script)
 			{
-				lastMission = script;
+				lastMissionHash = script;
 				lastMissionLabel = label;
 				updateNextTick = true;
 				//spdlog::get("file")->debug("Mission was changed to {0} (Label: {1})", script, label);
@@ -84,7 +75,7 @@ void CheckForMission()
 
 	if (!missionRunning)
 	{
-		lastMission = 0;
+		lastMissionHash = 0;
 		lastMissionLabel = "";
 	}
 }
@@ -114,7 +105,7 @@ void UpdatePresenceInfo(Ped ped, Vehicle vehicle, std::string zoneLabel)
 		details = fmt::format("Playing {0}", missionCustomName);
 		presence.state = "On Mission";
 	}
-	else if (lastMission != 0 && lastMissionLabel != "")
+	else if (lastMissionHash != 0 && lastMissionLabel != "")
 	{
 		details = fmt::format("Playing {0}", HUD::GET_LABEL_TEXT_(lastMissionLabel.c_str()));
 		presence.state = "On Mission";
