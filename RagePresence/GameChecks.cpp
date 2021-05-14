@@ -67,7 +67,7 @@ void CheckForMission()
 				lastMissionHash = script;
 				lastMissionLabel = label;
 				updateNextTick = true;
-				//spdlog::get("file")->debug("Mission was changed to {0} (Label: {1})", script, label);
+				spdlog::get("file")->debug("Mission was changed to {0} (Label: {1})", script, label);
 				return;
 			}
 		}
