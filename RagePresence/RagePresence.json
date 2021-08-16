@@ -260,5 +260,7 @@
         "mrsphilips1": "SC_RC_MRS1",
         "mrsphilips2": "SC_RC_MRS2",
         "thelastone": "SC_RC_SAS1"
+    },
+    "agencies": {
     }
 }
