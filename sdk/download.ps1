@@ -1,8 +1,8 @@
-$scripthookv_url = "http://www.dev-c.com/files/ScriptHookV_SDK_1.0.617.1a.zip"
+$scripthookv_url = "https://www.dev-c.com/files/ScriptHookV_SDK_1.0.617.1a.zip"
 $scripthookv_zip = "sdk\\scripthookv.zip"
 $scripthookv_out = "sdk\\scripthookv"
 $scripthookv_headers = @{
-    "Referer" = "http://www.dev-c.com"
+    "Referer" = "https://www.dev-c.com"
 }
 
 if (!(Test-Path $scripthookv_out))
