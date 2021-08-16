@@ -10,8 +10,30 @@
 #include "GameChecks.h"
 #include "Globals.h"
 #include "Tools.h"
+#include "Chase.h"
 
 DiscordRichPresence presence;
+
+void CheckForAgency(std::string zone)
+{
+	bool chaseStateChanged = chaseLastState != IsChaseActive();
+	std::string agencyName = GetAgencyName();
+
+	if (chaseStateChanged)
+	{
+		spdlog::get("file")->debug("Chase state was changed to {0}", chaseStateChanged);
+		chaseLastState = IsChaseActive();
+		chaseLastAgency = "";
+		updateNextTick = true;
+	}
+	else if (UpdateAgencyName(lastZoneLabel != zone) && agencyName != chaseLastAgency)
+	{
+		spdlog::get("file")->debug("Agency was changed from '{0}' to '{1}'", chaseLastAgency, agencyName);
+		chaseLastState = IsChaseActive();
+		chaseLastAgency = agencyName;
+		updateNextTick = true;
+	}
+}
 
 void CheckForZone(std::string zone)
 {
@@ -115,6 +137,20 @@ void UpdatePresenceInfo(Ped ped, Vehicle vehicle, std::string zoneLabel)
 	else if (lastMissionHash != 0 && lastMissionLabel != "")
 	{
 		details = fmt::format("Playing {0}", HUD::GET_LABEL_TEXT_(lastMissionLabel.c_str()));
+	}
+	// Freeroaming: Chased by Authorities
+	else if (IsChaseActive())
+	{
+		std::string agency = GetAgencyName();
+
+		if (agency == "")
+		{
+			details = fmt::format("Being chased by the authorities");
+		}
+		else
+		{
+			details = fmt::format("Being chased by {0}", agency);
+		}
 	}
 	// Freeroaming: No Vehicle
 	else if (lastVehicle == NULL)
@@ -286,6 +322,7 @@ void DoGameChecks()
 		Vector3 pos = ENTITY::GET_ENTITY_COORDS(ped, true);
 		std::string zone = ZONE::GET_NAME_OF_ZONE(pos.x, pos.y, pos.z);
 
+		CheckForAgency(zone);
 		CheckForZone(zone);
 		CheckForPed(ped);
 		CheckForVehicle(vehicle);

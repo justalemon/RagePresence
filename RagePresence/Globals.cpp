@@ -21,3 +21,6 @@ bool detailsCustomSet = false;
 
 std::string stateCustomText = "";
 bool stateCustomSet = false;
+
+std::string chaseLastAgency = "";
+bool chaseLastState = false;

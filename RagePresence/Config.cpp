@@ -20,6 +20,7 @@ const char* client_id = default_client_id;
 std::map<std::string, std::string> makes = {};
 std::unordered_set<std::string> zones = {};
 std::map<Hash, std::string> missions = {};
+std::map<Hash, std::string> agencies = {};
 
 const char* GetDiscordID()
 {
@@ -48,6 +49,35 @@ bool IsZoneValid(std::string str)
 std::map<Hash, std::string> GetMissionList()
 {
 	return missions;
+}
+
+std::string GetAgencyOfPed(Ped ped)
+{
+	if (ENTITY::GET_ENTITY_TYPE(ped) != 1)
+	{
+		return "";
+	}
+
+	Hash model = ENTITY::GET_ENTITY_MODEL(ped);
+
+	if (agencies.count(model))
+	{
+		return agencies[model];
+	}
+	else
+	{
+		switch (PED::GET_PED_TYPE(ped))
+		{
+			case 27:
+				return "the SWAT";
+			case 29:
+				return "the Army";
+			case 6:
+				return "the Police";
+			default:
+				return "";
+		}
+	}
 }
 
 void LoadConfig()
@@ -182,6 +212,32 @@ void LoadConfig()
 		else
 		{
 			spdlog::get("file")->warn("List of missions is not an Array!");
+		}
+	}
+
+	if (document.HasMember("agencies"))
+	{
+		spdlog::get("file")->debug("Attempting to load corresponding Ped Agencies...");
+		Value& rawAgencies = document["agencies"];
+
+		if (rawAgencies.IsObject())
+		{
+			agencies.clear();
+
+			for (Value::ConstMemberIterator child = rawAgencies.MemberBegin(); child != rawAgencies.MemberEnd(); ++child)
+			{
+				if (child->value.IsString())
+				{
+					const char* model = child->name.GetString();
+					std::pair<Hash, std::string> pair(MISC::GET_HASH_KEY(model), child->value.GetString());
+					agencies.insert(pair);
+					spdlog::get("file")->debug("Found Agency for Ped '{0}' ({1}) called '{2}'", model, pair.first, pair.second);
+				}
+			}
+		}
+		else
+		{
+			spdlog::get("file")->warn("List of Ped Agencies is not an Array!");
 		}
 	}
 }

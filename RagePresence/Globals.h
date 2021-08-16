@@ -21,3 +21,6 @@ extern bool detailsCustomSet;
 
 extern std::string stateCustomText;
 extern bool stateCustomSet;
+
+extern std::string chaseLastAgency;
+extern bool chaseLastState;
