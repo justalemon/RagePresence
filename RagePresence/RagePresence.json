@@ -262,5 +262,25 @@
         "thelastone": "SC_RC_SAS1"
     },
     "agencies": {
+        "S_M_M_Security_01": "Private Security",
+        "S_M_M_Armoured_01": "Gruppe Sechs",
+        "S_M_M_Armoured_02": "Gruppe Sechs",
+        "S_M_Y_HwayCop_01": "Los Santos Highway Patrol",
+        "S_M_Y_Sheriff_01": "Blaine County Sheriff",
+        "S_F_Y_Sheriff_01": "Blaine County Sheriff",
+        "S_M_M_SnowCop_01": "North Yankton State Patrol",
+        "S_M_Y_Cop_01": "the LSPD",
+        "S_F_Y_Cop_01": "the LSPD",
+        "S_M_Y_Pilot_01": "the LSPD",
+        "S_M_M_FIBSec_01": "the FIB",
+        "S_M_Y_Swat_01": "N.O.O.S.E.",
+        "S_M_Y_USCG_01": "the Coast Guard",
+        "S_M_M_Marine_01": "the Army",
+        "S_M_Y_Marine_01": "the Army",
+        "S_M_Y_Marine_02": "the Army",
+        "S_M_Y_Marine_03": "the Army",
+        "S_M_Y_BlackOps_01": "Merryweather Security",
+        "S_M_Y_BlackOps_02": "Merryweather Security",
+        "S_M_Y_BlackOps_03": "Merryweather Security"
     }
 }
