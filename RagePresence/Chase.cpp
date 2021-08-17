@@ -9,7 +9,7 @@ std::string agencyName = "";
 
 bool UpdateAgencyName(bool force)
 {
-	if (MISC::GET_GAME_TIMER() < lastCheck + (15 * 60) && !force)
+	if (MISC::GET_GAME_TIMER() < lastCheck + (15 * 60 * 1000) && !force)
 	{
 		return false;
 	}
