@@ -1,0 +1,55 @@
+﻿name: Compile Mod
+on:
+  release:
+    types:
+      - created
+  push:
+  pull_request:
+
+permissions:
+  contents: write
+  id-token: write
+  pages: write
+  packages: write
+
+jobs:
+  lint-and-compile:
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v3
+      - uses: TheMrMilchmann/setup-msvc-dev@v3.0.0
+        with:
+          arch: x64
+      - run: msbuild ${{ github.event.repository.name }}.sln /t:Build /p:Configuration=${{ matrix.configuration }}
+        working-directory: ${{ env.GITHUB_WORKSPACE }}
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ github.event.repository.name }}.${{ matrix.configuration }}
+          path: bin/${{ matrix.configuration }}
+  deploy:
+    runs-on: ubuntu-22.04
+    if: ${{ github.event_name == 'release' }}
+    needs:
+      - lint-and-compile
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-dotnet@v2.1.0
+        with:
+          dotnet-version: "7.0.x"
+      - uses: actions/download-artifact@v3
+        with:
+          name: ${{ github.event.repository.name }}.Release
+          path: bin/Release
+      - run: 7z a ${{ github.event.repository.name }}.zip ${{ github.workspace }}/bin/Release/*
+      - uses: ncipollo/release-action@v1.13.0
+        with:
+          allowUpdates: true
+          artifactErrorsFailBuild: true
+          artifacts: ${{ github.event.repository.name }}.zip
+          omitBodyDuringUpdate: true
+          omitDraftDuringUpdate: true
+          omitNameDuringUpdate: true
+          omitPrereleaseDuringUpdate: true
