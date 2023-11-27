@@ -80,7 +80,7 @@ void CheckForMission()
 
 	for (auto const& [script, label] : GetMissionList())
 	{
-		if (SCRIPT::GET_NUMBER_OF_REFERENCES_OF_SCRIPT_WITH_NAME_HASH_(script) > 0)
+		if (SCRIPT::GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(script) > 0)
 		{
 			missionRunning = true;
 
@@ -105,16 +105,16 @@ void CheckForMission()
 void UpdatePresenceInfo(Ped ped, Vehicle vehicle, std::string zoneLabel)
 {
 	// Get the Zone Name and Label as Lowercase
-	std::string zoneName = HUD::GET_LABEL_TEXT_(zoneLabel.c_str());
+	std::string zoneName = HUD::GET_FILENAME_FOR_AUDIO_CONVERSATION(zoneLabel.c_str());
 	std::string zoneLower = zoneLabel;
 	std::transform(zoneLower.begin(), zoneLower.end(), zoneLower.begin(), ::tolower);
 	// And the vehicle information (if any)
 	Hash vehicleModel = ENTITY::GET_ENTITY_MODEL(vehicle);
 	std::string vehicleLabel = VEHICLE::GET_DISPLAY_NAME_FROM_VEHICLE_MODEL(vehicleModel);
-	std::string vehicleMakeLabel = VEHICLE::GET_MAKE_NAME_FROM_VEHICLE_MODEL_(ENTITY::GET_ENTITY_MODEL(vehicle));
-	std::string vehicleMakeName = HUD::GET_LABEL_TEXT_(vehicleMakeLabel.c_str());
+	std::string vehicleMakeLabel = VEHICLE::GET_MAKE_NAME_FROM_VEHICLE_MODEL(ENTITY::GET_ENTITY_MODEL(vehicle));
+	std::string vehicleMakeName = HUD::GET_FILENAME_FOR_AUDIO_CONVERSATION(vehicleMakeLabel.c_str());
 	std::transform(vehicleMakeLabel.begin(), vehicleMakeLabel.end(), vehicleMakeLabel.begin(), ::tolower);
-	std::string vehicleName = HUD::GET_LABEL_TEXT_(VEHICLE::GET_DISPLAY_NAME_FROM_VEHICLE_MODEL(vehicleModel));
+	std::string vehicleName = HUD::GET_FILENAME_FOR_AUDIO_CONVERSATION(VEHICLE::GET_DISPLAY_NAME_FROM_VEHICLE_MODEL(vehicleModel));
 
 	// Create a place to store the information.
 	std::string details = "";
@@ -136,7 +136,7 @@ void UpdatePresenceInfo(Ped ped, Vehicle vehicle, std::string zoneLabel)
 	// Game Mission
 	else if (lastMissionHash != 0 && lastMissionLabel != "")
 	{
-		details = fmt::format("Playing {0}", HUD::GET_LABEL_TEXT_(lastMissionLabel.c_str()));
+		details = fmt::format("Playing {0}", HUD::GET_FILENAME_FOR_AUDIO_CONVERSATION(lastMissionLabel.c_str()));
 	}
 	// Freeroaming: Chased by Authorities
 	else if (IsChaseActive())
@@ -305,13 +305,13 @@ void DoGameChecks()
 	while (true)
 	{
 		// If the user enters the "rpreload" cheat, reload the configuration
-		if (MISC::HAS_CHEAT_STRING_JUST_BEEN_ENTERED_(cheatReload))
+		if (MISC::HAS_PC_CHEAT_WITH_HASH_BEEN_ACTIVATED(cheatReload))
 		{
 			LoadConfig();
 			updateNextTick = true;
 		}
 		// And for "rpreconnect", reconnect to Discord by reinitializing
-		if (MISC::HAS_CHEAT_STRING_JUST_BEEN_ENTERED_(cheatReconnect))
+		if (MISC::HAS_PC_CHEAT_WITH_HASH_BEEN_ACTIVATED(cheatReconnect))
 		{
 			Init();
 			updateNextTick = true;
