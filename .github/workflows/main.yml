@@ -22,9 +22,13 @@ jobs:
       - uses: actions/checkout@v4.1.1
         with:
           submodules: true
+      - uses: actions/setup-dotnet@v2.1.0
+        with:
+          dotnet-version: "7.0.x"
       - uses: TheMrMilchmann/setup-msvc-dev@v3.0.0
         with:
           arch: x64
+      - run: dotnet restore ${{ github.event.repository.name }}.sln
       - run: msbuild ${{ github.event.repository.name }}.sln /t:Build /p:Configuration=${{ matrix.configuration }}
         working-directory: ${{ env.GITHUB_WORKSPACE }}
       - uses: actions/upload-artifact@v3
